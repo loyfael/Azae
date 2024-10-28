@@ -21,6 +21,9 @@ const CHANNEL_ID = '1263546795586490419'; // ID du salon pour le menu de sélect
 const CATEGORY_ID = '1263546795586490418'; // ID de la catégorie pour les tickets
 const STAFF_ROLE_ID = '1263546795137437714'; // ID du rôle du staff
 const TRANSCRIPT_CHANNEL_ID = '1299661497575931914'; // ID du salon où envoyer les transcripts
+// **Ajoutez les IDs des rôles autorisés pour la catégorie "bug"**
+const BUG_ROLE_ID_1 = '1300536444133179444'; // Remplacez par l'ID du premier rôle
+const BUG_ROLE_ID_2 = '1263546795129311288'; // Remplacez par l'ID du second rôle
 const client = new discord_js_1.Client({
     intents: [discord_js_1.GatewayIntentBits.Guilds, discord_js_1.GatewayIntentBits.GuildMessages],
     partials: [discord_js_1.Partials.Channel, discord_js_1.Partials.Message]
@@ -72,11 +75,6 @@ function sendSelectMenuMessage() {
                 description: "Je veux contester une sanction",
                 emoji: "🗣️"
             }, {
-                label: 'Problème boutique',
-                value: 'probleme_boutique',
-                description: "J'ai eu un problème avec la boutique.",
-                emoji: "💳"
-            }, {
                 label: 'Intervention',
                 value: 'intervention',
                 description: "J'ai besoin d'un unclaim, afficher au spawn..",
@@ -114,9 +112,6 @@ function sendSelectMenuMessage() {
 
                 **Intervention**
                 Tickets nécessitant l'intervention d'un opérateur (Unclaim d'un land, placer une affiche dans le Spawn...)
-
-                **Boutique**
-                Tickets concernant notre boutique (https://store.badlands.fr/)
                 `)
                 .setColor(0x00AE86);
             yield channel.send({ embeds: [embed], components: [row] });
@@ -148,26 +143,49 @@ client.on(discord_js_1.Events.InteractionCreate, (interaction) => __awaiter(void
                 return;
             }
             try {
-                const channelName = `ticket-${interaction.user.username}-${interaction.user.discriminator}`;
+                // Map pour les préfixes de catégories
+                const categoryPrefixes = {
+                    'signalement_bug': 'bug',
+                    'plainte': 'plainte',
+                    'remboursements': 'refund',
+                    'contestation_sanction': 'protest',
+                    'questions_aide': 'question',
+                    'intervention': 'inter',
+                    'partenariats': 'partena'
+                };
+                const categoryPrefix = categoryPrefixes[selectedCategory] || 'ticket';
+                const channelName = `${categoryPrefix}-${interaction.user.username}`;
+                // Définition des permissions
+                const permissionOverwrites = [
+                    {
+                        id: guild.id,
+                        deny: [discord_js_1.PermissionFlagsBits.ViewChannel],
+                    },
+                    {
+                        id: interaction.user.id,
+                        allow: [discord_js_1.PermissionFlagsBits.ViewChannel, discord_js_1.PermissionFlagsBits.SendMessages, discord_js_1.PermissionFlagsBits.ReadMessageHistory],
+                    },
+                    {
+                        id: STAFF_ROLE_ID,
+                        allow: [discord_js_1.PermissionFlagsBits.ViewChannel, discord_js_1.PermissionFlagsBits.SendMessages, discord_js_1.PermissionFlagsBits.ReadMessageHistory],
+                    },
+                ];
+                // Ajout des rôles spécifiques pour la catégorie "bug"
+                if (selectedCategory === 'signalement_bug') {
+                    permissionOverwrites.push({
+                        id: BUG_ROLE_ID_1,
+                        allow: [discord_js_1.PermissionFlagsBits.ViewChannel, discord_js_1.PermissionFlagsBits.SendMessages, discord_js_1.PermissionFlagsBits.ReadMessageHistory],
+                    }, {
+                        id: BUG_ROLE_ID_2,
+                        allow: [discord_js_1.PermissionFlagsBits.ViewChannel, discord_js_1.PermissionFlagsBits.SendMessages, discord_js_1.PermissionFlagsBits.ReadMessageHistory],
+                    });
+                }
                 const ticketChannel = yield guild.channels.create({
                     name: channelName,
                     type: discord_js_1.ChannelType.GuildText,
                     parent: CATEGORY_ID,
                     topic: interaction.user.id, // Stocke l'ID du créateur du ticket
-                    permissionOverwrites: [
-                        {
-                            id: guild.id,
-                            deny: [discord_js_1.PermissionFlagsBits.ViewChannel],
-                        },
-                        {
-                            id: interaction.user.id,
-                            allow: [discord_js_1.PermissionFlagsBits.ViewChannel, discord_js_1.PermissionFlagsBits.SendMessages, discord_js_1.PermissionFlagsBits.ReadMessageHistory],
-                        },
-                        {
-                            id: STAFF_ROLE_ID,
-                            allow: [discord_js_1.PermissionFlagsBits.ViewChannel, discord_js_1.PermissionFlagsBits.SendMessages, discord_js_1.PermissionFlagsBits.ReadMessageHistory],
-                        },
-                    ],
+                    permissionOverwrites: permissionOverwrites,
                 });
                 // Créer les boutons de réclamation et de fermeture
                 const claimButton = new discord_js_1.ButtonBuilder()
@@ -206,7 +224,7 @@ client.on(discord_js_1.Events.InteractionCreate, (interaction) => __awaiter(void
         }
         else if (interaction.customId === 'close_ticket_modal') {
             const channel = interaction.channel;
-            if (!channel || !channel.name.startsWith('ticket-')) {
+            if (!channel || !channel.name.startsWith('ticket-') && !channel.name.includes('-')) {
                 yield interaction.reply({ content: 'Cette action ne peut être effectuée que dans un canal de ticket.', ephemeral: true });
                 return;
             }
@@ -239,7 +257,7 @@ client.on(discord_js_1.Events.InteractionCreate, (interaction) => __awaiter(void
     }
     else if (interaction.isButton()) {
         const channel = interaction.channel;
-        if (!channel || !channel.name.startsWith('ticket-')) {
+        if (!channel || !channel.name.startsWith('ticket-') && !channel.name.includes('-')) {
             yield interaction.reply({ content: 'Ce bouton ne peut être utilisé que dans un canal de ticket.', ephemeral: true });
             return;
         }
@@ -318,7 +336,7 @@ function createModalForCategory(category) {
                 .setLabel('Erreur dans le tchat')
                 .setStyle(discord_js_1.TextInputStyle.Paragraph)
                 .setRequired(false)
-                .setPlaceholder("Écrivez l'erreur si il y en a une.");
+                .setPlaceholder("Écrivez l'erreur s'il y en a une.");
             components.push(new discord_js_1.ActionRowBuilder().addComponents(serverWorldInput_bug), new discord_js_1.ActionRowBuilder().addComponents(bugDescriptionInput), new discord_js_1.ActionRowBuilder().addComponents(reproduceBugInput), new discord_js_1.ActionRowBuilder().addComponents(chatErrorInput));
             break;
         case 'plainte':
@@ -403,30 +421,6 @@ function createModalForCategory(category) {
                 .setPlaceholder("Pour quelle raison devrions-nous retirer votre sanction ?");
             components.push(new discord_js_1.ActionRowBuilder().addComponents(sanctionReasonInput), new discord_js_1.ActionRowBuilder().addComponents(appealReasonInput));
             break;
-        case 'probleme_boutique':
-            // Sur lequel de nos serveur et/ou monde êtes-vous ? (obligatoire)
-            const serverWorldInput_boutique = new discord_js_1.TextInputBuilder()
-                .setCustomId('Serveur/Monde')
-                .setLabel('Sur quel serveur/monde ?')
-                .setStyle(discord_js_1.TextInputStyle.Short)
-                .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde êtes-vous ?");
-            // Quels articles avez-vous acheté(s) ? (obligatoire)
-            const purchasedItemsInput = new discord_js_1.TextInputBuilder()
-                .setCustomId('Articles achetés')
-                .setLabel('Articles achetés')
-                .setStyle(discord_js_1.TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Listez les articles achetés.");
-            // Quel est le problème rencontré ? (optionnel)
-            const issueDescriptionInput = new discord_js_1.TextInputBuilder()
-                .setCustomId('Description du problème')
-                .setLabel('Quel est le problème rencontré ?')
-                .setStyle(discord_js_1.TextInputStyle.Paragraph)
-                .setRequired(false)
-                .setPlaceholder("Décrivez le problème rencontré.");
-            components.push(new discord_js_1.ActionRowBuilder().addComponents(serverWorldInput_boutique), new discord_js_1.ActionRowBuilder().addComponents(purchasedItemsInput), new discord_js_1.ActionRowBuilder().addComponents(issueDescriptionInput));
-            break;
         case 'intervention':
             // Sur lequel de nos serveur et/ou monde ? (obligatoire)
             const serverWorldInput_intervention = new discord_js_1.TextInputBuilder()
@@ -475,22 +469,22 @@ function getModalFieldsForCategory(category, interaction) {
     fields['Pseudo en jeu'] = interaction.fields.getTextInputValue('Pseudo en jeu');
     switch (category) {
         case 'signalement_bug':
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde');
+            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
             fields['Description du bug'] = interaction.fields.getTextInputValue('Description du bug');
             fields['Comment reproduire le bug'] = interaction.fields.getTextInputValue('Comment reproduire le bug') || 'Non spécifié';
             fields['Erreur dans le tchat'] = interaction.fields.getTextInputValue('Erreur dans le tchat') || 'Non spécifié';
             break;
         case 'plainte':
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde');
+            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
             fields['Pseudo du/des fautif(s)'] = interaction.fields.getTextInputValue('Pseudo du/des fautif(s)');
             fields['Description du problème'] = interaction.fields.getTextInputValue('Description du problème');
             break;
         case 'questions_aide':
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde');
+            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
             fields['Votre demande'] = interaction.fields.getTextInputValue('Votre demande');
             break;
         case 'remboursements':
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde');
+            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
             fields['Comment avez-vous perdu vos équipements ?'] = interaction.fields.getTextInputValue('Comment avez-vous perdu vos équipements');
             fields['Comportement anormal du serveur ?'] = interaction.fields.getTextInputValue('Comportement anormal du serveur') || 'Non spécifié';
             break;
@@ -498,13 +492,8 @@ function getModalFieldsForCategory(category, interaction) {
             fields['Pourquoi avez-vous été sanctionné ?'] = interaction.fields.getTextInputValue('Raison de la sanction');
             fields['Pourquoi retirer votre sanction ?'] = interaction.fields.getTextInputValue('Raison du retrait de la sanction') || 'Non spécifié';
             break;
-        case 'probleme_boutique':
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde');
-            fields['Articles achetés'] = interaction.fields.getTextInputValue('Articles achetés');
-            fields['Description du problème'] = interaction.fields.getTextInputValue('Description du problème') || 'Non spécifié';
-            break;
         case 'intervention':
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde');
+            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
             fields['Pourquoi une intervention Haut Staff ?'] = interaction.fields.getTextInputValue('Raison de l\'intervention');
             break;
         case 'partenariats':
