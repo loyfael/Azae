@@ -26,7 +26,6 @@ cd <your-directory>
 ```
 npm install
 ```
-https://discord.com/developers/applications
 ### Run the project:
 ```
 npm start
@@ -35,7 +34,7 @@ npm start
 ### Create a Discord Bot:
 
 1. Create your discord bot:
-- Go to the Discord Developer Portal.
+- Go to the [Discord Developer Portal](https://discord.com/developers/applications).
 - Click on "New Application" and give it a name.
 - Navigate to the "Bot" section and click "Add Bot".
 - Copy the Bot Token; you'll need it for the configuration.
