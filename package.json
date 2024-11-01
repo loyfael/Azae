@@ -11,7 +11,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsc && node dist/index.js"
+    "build": "tsc",
+    "deploy": "node dist/deploy-commands.js",
+    "start": "npm run build && npm run deploy && node dist/index.js"
   },
   "author": "",
   "license": "ISC",
