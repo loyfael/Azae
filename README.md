@@ -1,4 +1,4 @@
-# Discord Ticket Bot
+# Azae, ticket discord bot evolved
 A robust Discord bot built with discord.js and TypeScript, designed to manage support tickets efficiently within your Discord server. This bot allows users to create, manage, and close tickets with ease, ensuring organized and streamlined support interactions.
 
 ## Features
