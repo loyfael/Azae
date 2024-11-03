@@ -1,4 +1,4 @@
-# Discord Ticket Bot
+# Azae, ticket discord bot evolved
 A robust Discord bot built with discord.js and TypeScript, designed to manage support tickets efficiently within your Discord server. This bot allows users to create, manage, and close tickets with ease, ensuring organized and streamlined support interactions.
 
 ## Features
@@ -26,7 +26,6 @@ cd <your-directory>
 ```
 npm install
 ```
-https://discord.com/developers/applications
 ### Run the project:
 ```
 npm start
@@ -35,7 +34,7 @@ npm start
 ### Create a Discord Bot:
 
 1. Create your discord bot:
-- Go to the Discord Developer Portal.
+- Go to the [Discord Developer Portal](https://discord.com/developers/applications).
 - Click on "New Application" and give it a name.
 - Navigate to the "Bot" section and click "Add Bot".
 - Copy the Bot Token; you'll need it for the configuration.
@@ -121,6 +120,5 @@ SOFTWARE.
 
 ## Contact
 For any questions or support, feel free to reach out:
-
-Email: aelphil@proton.me
-Discord: weirdcrow_
+- Email: aelphil@proton.me
+- Discord: weirdcrow_
