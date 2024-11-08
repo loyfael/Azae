@@ -1,4 +1,6 @@
-import { Client, GatewayIntentBits, Partials } from 'discord.js';
+// src/index.ts
+
+import { Client, GatewayIntentBits, Partials, ActivityType } from 'discord.js';
 
 /** 
  * Importation du module dotenv pour gérer les variables d'environnement.
@@ -11,6 +13,9 @@ dotenv.config(); // Charge les variables d'environnement depuis le fichier .env
 // Importation des gestionnaires d'événements personnalisés
 import { handleReady } from './events/ready'; // Gestionnaire pour l'événement 'ready'
 import { handleInteractionCreate } from './events/interactionCreate'; // Gestionnaire pour l'événement 'interactionCreate'
+
+// Importation de la fonction pour récupérer le nombre de joueurs Minecraft
+import { getMinecraftPlayerCount } from './utils/minecraftStatus';
 
 // Création d'une nouvelle instance de Client Discord avec les intents et partials nécessaires
 const client = new Client({
@@ -25,13 +30,32 @@ const client = new Client({
 });
 
 /**
+ * Fonction pour mettre à jour le statut du bot avec le nombre de joueurs Minecraft.
+ */
+async function updateBotStatus() {
+    const playerCount = await getMinecraftPlayerCount();
+    if (client.user) {
+        if (playerCount > 0) {
+            client.user.setActivity(`${playerCount} joueur(euse)s`, { type: ActivityType.Watching });
+        } else {
+            client.user.setActivity(`*Boup bip*`, { type: ActivityType.Playing });
+        }
+    }
+}
+
+/**
  * Gestionnaire de l'événement 'ready'.
  * 
  * Cet événement est émis lorsque le bot Discord est connecté et prêt à être utilisé.
  * Il appelle la fonction `handleReady` pour effectuer les initialisations nécessaires.
+ * Il met également à jour le statut du bot et configure la mise à jour périodique.
  */
-client.once('ready', () => {
+client.once('ready', async () => {
     handleReady(client);
+    await updateBotStatus(); // Mettre à jour le statut au démarrage
+
+    // Mettre à jour le statut toutes les 5 minutes (300000 ms)
+    setInterval(updateBotStatus, 60000);
 });
 
 /**

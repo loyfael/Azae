@@ -557,7 +557,7 @@ function createModalForCategory(category: string): ModalBuilder {
                 .setCustomId('Raison du ticket')
                 .setLabel('Raison du ticket')
                 .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
+                .setRequired(false)
                 .setPlaceholder("Entrez la raison de votre demande. N'oubliez pas la politesse !");
 
             components.push(new ActionRowBuilder<TextInputBuilder>().addComponents(defaultReasonInput));
