@@ -37,7 +37,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Sur quel serveur/monde ?')
                 .setStyle(TextInputStyle.Short)
                 .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?");
+                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setMaxLength(15);
 
             // Champ : Description du bug (obligatoire)
             const bugDescriptionInput = new TextInputBuilder()
@@ -45,7 +46,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Description du bug')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Quel bug avez-vous rencontré(e) ?");
+                .setPlaceholder("Quel bug avez-vous rencontré(e) ?")
+                .setMaxLength(1024);
 
             // Champ : Comment reproduire le bug? (optionnel)
             const reproduceBugInput = new TextInputBuilder()
@@ -53,7 +55,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Comment reproduire le bug ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
-                .setPlaceholder("Expliquez-nous comment reproduire ce bug.");
+                .setPlaceholder("Expliquez-nous comment reproduire ce bug.")
+                .setMaxLength(1024);
 
             // Champ : Erreur dans le tchat (optionnel)
             const chatErrorInput = new TextInputBuilder()
@@ -61,7 +64,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Erreur dans le tchat')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
-                .setPlaceholder("Écrivez l'erreur s'il y en a une.");
+                .setPlaceholder("Écrivez l'erreur s'il y en a une.")
+                .setMaxLength(200);
 
             // Ajout des champs spécifiques à la catégorie "signalement_bug" dans des lignes de composants
             components.push(
@@ -81,7 +85,16 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Sur quel serveur/monde ?')
                 .setStyle(TextInputStyle.Short)
                 .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?");
+                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setMaxLength(15);
+
+            const plaintWorldPosInput = new TextInputBuilder()
+                .setCustomId('Position')
+                .setLabel(`Avez vous une position?`)
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true)
+                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
+                .setMaxLength(50);
 
             // Champ : Pseudo du/des fautif(s) (obligatoire)
             const offenderInput = new TextInputBuilder()
@@ -89,7 +102,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Pseudo du/des fautif(s)')
                 .setStyle(TextInputStyle.Short)
                 .setRequired(true)
-                .setPlaceholder("Entrez le(s) pseudo(s) du/des fautif(s).");
+                .setPlaceholder("Entrez le(s) pseudo(s) du/des fautif(s).")
+                .setMaxLength(20);
 
             // Champ : Description du problème (obligatoire)
             const problemDescriptionInput = new TextInputBuilder()
@@ -97,11 +111,13 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Description du problème')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Décrivez le problème rencontré.");
+                .setPlaceholder("Décrivez le problème rencontré.")
+                .setMaxLength(1024);
 
             // Ajout des champs spécifiques à la catégorie "plainte" dans des lignes de composants
             components.push(
                 new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_plainte),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(plaintWorldPosInput),
                 new ActionRowBuilder<TextInputBuilder>().addComponents(offenderInput),
                 new ActionRowBuilder<TextInputBuilder>().addComponents(problemDescriptionInput),
             );
@@ -116,7 +132,16 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Sur quel serveur/monde ?')
                 .setStyle(TextInputStyle.Short)
                 .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?");
+                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setMaxLength(20);
+
+            const questionWorldPosInput = new TextInputBuilder()
+                .setCustomId('Position')
+                .setLabel(`Avez vous une position?`)
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true)
+                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
+                .setMaxLength(50);
 
             // Champ : De quoi avez-vous besoin ? (obligatoire)
             const needInput = new TextInputBuilder()
@@ -124,11 +149,13 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('De quoi avez-vous besoin ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Expliquez votre besoin.");
+                .setPlaceholder("Expliquez votre besoin.")
+                .setMaxLength(1024);
 
             // Ajout des champs spécifiques à la catégorie "questions_aide" dans des lignes de composants
             components.push(
                 new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_aide),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(questionWorldPosInput),
                 new ActionRowBuilder<TextInputBuilder>().addComponents(needInput),
             );
             break;
@@ -142,7 +169,16 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Sur quel serveur/monde ?')
                 .setStyle(TextInputStyle.Short)
                 .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?");
+                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setMaxLength(20);
+
+            const refundWorldPosInput = new TextInputBuilder()
+                .setCustomId('Position')
+                .setLabel(`Avez vous une position?`)
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true)
+                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
+                .setMaxLength(50);
 
             // Champ : Comment avez-vous perdu vos équipements ? (obligatoire)
             const lossExplanationInput = new TextInputBuilder()
@@ -150,7 +186,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Comment avez-vous perdu vos équipements ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Expliquez les circonstances de la perte.");
+                .setPlaceholder("Expliquez les circonstances de la perte.")
+                .setMaxLength(1024);
 
             // Champ : Avez-vous vu un comportement anormal du serveur ? (optionnel)
             const serverIssueInput = new TextInputBuilder()
@@ -158,11 +195,13 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Comportement anormal du serveur ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
-                .setPlaceholder("Avez-vous vu un comportement anormal du serveur ?");
+                .setPlaceholder("Avez-vous vu un comportement anormal du serveur ?")
+                .setMaxLength(500);
 
             // Ajout des champs spécifiques à la catégorie "remboursements" dans des lignes de composants
             components.push(
                 new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_remboursement),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(refundWorldPosInput),
                 new ActionRowBuilder<TextInputBuilder>().addComponents(lossExplanationInput),
                 new ActionRowBuilder<TextInputBuilder>().addComponents(serverIssueInput),
             );
@@ -177,7 +216,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Pourquoi avez-vous été sanctionné ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Expliquez la raison de votre sanction.");
+                .setPlaceholder("Expliquez la raison de votre sanction.")
+                .setMaxLength(500);
 
             // Champ : Pour quelle raison devrions-nous retirer votre sanction ? (optionnel)
             const appealReasonInput = new TextInputBuilder()
@@ -185,7 +225,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Pour quelle raison retirer votre sanction ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
-                .setPlaceholder("Pour quelle raison devrions-nous retirer votre sanction ?");
+                .setPlaceholder("Pour quelle raison devrions-nous retirer votre sanction ?")
+                .setMaxLength(1024);
 
             // Ajout des champs spécifiques à la catégorie "contestation_sanction" dans des lignes de composants
             components.push(
@@ -203,7 +244,16 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Sur quel serveur/monde ?')
                 .setStyle(TextInputStyle.Short)
                 .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?");
+                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setMaxLength(15);
+
+            const interventionWorldPosInput = new TextInputBuilder()
+                .setCustomId('Position')
+                .setLabel(`Avez vous une position?`)
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true)
+                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
+                .setMaxLength(50);
 
             // Champ : Pourquoi avez-vous besoin d'une intervention Haut Staff ? (obligatoire)
             const interventionReasonInput = new TextInputBuilder()
@@ -211,13 +261,16 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Pourquoi une intervention Haut Staff ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Pourquoi avez-vous besoin d'une intervention Haut Staff ?");
+                .setPlaceholder("Pourquoi avez-vous besoin d'une intervention Haut Staff ?")
+                .setMaxLength(1024);
 
             // Ajout des champs spécifiques à la catégorie "intervention" dans des lignes de composants
             components.push(
                 new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_intervention),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(interventionWorldPosInput),
                 new ActionRowBuilder<TextInputBuilder>().addComponents(interventionReasonInput),
             );
+            
             break;
 
         case 'partenariats':
@@ -229,7 +282,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('Présentez-nous votre projet')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Décrivez votre projet en détail.");
+                .setPlaceholder("Décrivez votre projet en détail.")
+                .setMaxLength(1024);
 
             // Ajout du champ spécifique à la catégorie "partenariats" dans une ligne de composants
             components.push(
@@ -245,8 +299,9 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setCustomId('Raison du ticket')
                 .setLabel('Raison du ticket')
                 .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Entrez la raison de votre demande. N'oubliez pas la politesse !");
+                .setRequired(false)
+                .setPlaceholder("Entrez la raison de votre demande. N'oubliez pas la politesse !")
+                .setMaxLength(1024);
 
             // Ajout du champ par défaut dans une ligne de composants
             components.push(new ActionRowBuilder<TextInputBuilder>().addComponents(defaultReasonInput));

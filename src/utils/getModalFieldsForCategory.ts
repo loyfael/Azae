@@ -42,6 +42,9 @@ export function getModalFieldsForCategory(category: string, interaction: ModalSu
             // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
 
+            // Récupère la valeur du champ "Position" ou définit par défaut
+            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
+
             // Récupère la valeur du champ "Pseudo du/des fautif(s)"
             fields['Pseudo du/des fautif(s)'] = interaction.fields.getTextInputValue('Pseudo du/des fautif(s)');
 
@@ -55,6 +58,9 @@ export function getModalFieldsForCategory(category: string, interaction: ModalSu
             // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
 
+            // Récupère la valeur du champ "Position" ou définit par défaut
+            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
+
             // Récupère la valeur du champ "Votre demande"
             fields['Votre demande'] = interaction.fields.getTextInputValue('Votre demande');
             break;
@@ -64,6 +70,9 @@ export function getModalFieldsForCategory(category: string, interaction: ModalSu
 
             // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
+            
+            // Récupère la valeur du champ "Position" ou définit par défaut
+            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
 
             // Récupère la valeur du champ "Comment avez-vous perdu vos équipements ?"
             fields['Comment avez-vous perdu vos équipements ?'] = interaction.fields.getTextInputValue('Comment avez-vous perdu vos équipements');
@@ -87,6 +96,9 @@ export function getModalFieldsForCategory(category: string, interaction: ModalSu
 
             // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
+
+            // Récupère la valeur du champ "Position" ou définit par défaut
+            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
 
             // Récupère la valeur du champ "Pourquoi une intervention Haut Staff ?"
             fields['Pourquoi une intervention Haut Staff ?'] = interaction.fields.getTextInputValue('Raison de l\'intervention');
