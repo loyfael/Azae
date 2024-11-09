@@ -1,26 +1,26 @@
-import { 
-    Client, 
-    Interaction, 
-    InteractionType, 
-    ModalSubmitInteraction, 
-    StringSelectMenuInteraction, 
-    ChatInputCommandInteraction, 
-    ButtonInteraction, 
-    TextChannel, 
-    EmbedBuilder, 
-    ActionRowBuilder, 
-    ButtonBuilder, 
-    ModalBuilder, 
-    TextInputBuilder, 
-    TextInputStyle, 
-    ChannelType, 
-    AttachmentBuilder 
+import {
+    Client,
+    Interaction,
+    InteractionType,
+    ModalSubmitInteraction,
+    StringSelectMenuInteraction,
+    ChatInputCommandInteraction,
+    ButtonInteraction,
+    TextChannel,
+    EmbedBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ModalBuilder,
+    TextInputBuilder,
+    TextInputStyle,
+    ChannelType,
+    AttachmentBuilder
 } from 'discord.js';
 
 import { createModalForCategory } from '../components/modals';
 import { getModalFieldsForCategory } from '../utils/getModalFieldsForCategory';
 import { getPermissionsBasedOnTicketName } from '../utils/permissionManager';
-import { CATEGORY_ID, TRANSCRIPT_CHANNEL_ID } from '../config/config';
+import { CATEGORY_ID, GAME_DEV_ROLE_ID, GUIDE_ROLE_ID, HIGHER_ROLES_IDS, MODO_ROLE_ID, SUPERMODO_ROLE_ID, TRANSCRIPT_CHANNEL_ID } from '../config/config';
 import { createClaimButton, createCloseButton } from '../components/buttons';
 import { fetchChannelMessages } from '../utils/transcript';
 import { formatMessage } from '../utils/format';
@@ -36,7 +36,7 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
             const modal = createModalForCategory(selectedCategory);
             await selectMenuInteraction.showModal(modal);
         }
-    } 
+    }
     else if (interaction.type === InteractionType.ModalSubmit) {
         const modalInteraction = interaction as ModalSubmitInteraction;
 
@@ -93,15 +93,15 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
                 console.error('Erreur lors de la création du canal de ticket :', error);
                 await modalInteraction.reply({ content: 'Une erreur est survenue lors de la création de votre ticket.', ephemeral: true });
             }
-        } 
+        }
         else if (modalInteraction.customId === 'close_ticket_modal') {
             await handleCloseTicket(modalInteraction, client);
         }
-    } 
+    }
     else if (interaction.isButton()) {
         const buttonInteraction = interaction as ButtonInteraction;
         await handleButtonInteraction(buttonInteraction, client);
-    } 
+    }
     else if (interaction.isChatInputCommand()) {
         const chatInputInteraction = interaction as ChatInputCommandInteraction;
 
@@ -112,34 +112,63 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
 }
 
 async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Client) {
+    // Récupère le canal actuel et le cast en TextChannel
     const channel = interaction.channel as TextChannel;
 
+    // Vérifie si le canal est un canal de ticket en vérifiant la présence d'un '-' dans le nom
     if (!channel || !channel.name.includes('-')) {
         await interaction.reply({ content: 'Cette action ne peut être effectuée que dans un canal de ticket.', ephemeral: true });
         return;
     }
 
+    // Récupère les informations sur le membre qui a interagi
+    const member = interaction.member;
+    const isStaff = (member?.roles as any).cache.has(GUIDE_ROLE_ID) ||
+        (member?.roles as any).cache.has(MODO_ROLE_ID) ||
+        (member?.roles as any).cache.has(SUPERMODO_ROLE_ID) ||
+        (member?.roles as any).cache.has(HIGHER_ROLES_IDS) ||
+        (member?.roles as any).cache.has(GAME_DEV_ROLE_ID);
+
+    const isTicketOwner = channel.topic === interaction.user.id; // Vérifie si l'utilisateur est le créateur du ticket
+
+    // Vérifie si l'utilisateur a les permissions nécessaires pour fermer le ticket
+    if (!isStaff && !isTicketOwner) {
+        await interaction.reply({ content: 'Vous n\'avez pas la permission de fermer ce ticket.', ephemeral: true });
+        return;
+    }
+
+    // Récupère le motif de fermeture fourni par l'utilisateur
     const closeReason = interaction.fields.getTextInputValue('close_reason') || 'Aucun motif fourni.';
 
+    // Essayez de générer et d'envoyer le transcript du ticket
     try {
+        // Récupère tous les messages du canal de ticket
         const messages = await fetchChannelMessages(channel);
+
+        // Formate les messages en une chaîne de caractères
         const transcript = messages.reverse().map(formatMessage).join('\n');
 
+        // Crée une pièce jointe avec le transcript
         const attachment = new AttachmentBuilder(Buffer.from(transcript, 'utf-8'), { name: `transcript-${channel.name}.txt` });
 
+        // Récupère le salon dédié aux transcripts
         const transcriptChannel = await client.channels.fetch(TRANSCRIPT_CHANNEL_ID) as TextChannel;
         if (transcriptChannel) {
+            // Envoie le transcript dans le salon des transcripts avec le motif de fermeture
             await transcriptChannel.send({
                 content: `Transcript du ticket ${channel.name} fermé par ${interaction.user}\nMotif : ${closeReason}`,
-                files: [attachment],
+                files: [attachment]
             });
         }
     } catch (error) {
+        // Gère les erreurs lors de la création du transcript
         console.error('Erreur lors de la création du transcript :', error);
     }
 
+    // Répond à l'utilisateur que le ticket a été fermé avec le motif
     await interaction.reply({ content: `Ticket fermé par ${interaction.user}\nMotif : ${closeReason}` });
 
+    // Supprime le canal de ticket après un délai de 5 secondes pour permettre la lecture du message de confirmation
     setTimeout(async () => {
         await channel.delete().catch(console.error);
     }, 5000);
