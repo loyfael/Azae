@@ -1,5 +1,3 @@
-// src/index.ts
-
 import { Client, GatewayIntentBits, Partials, ActivityType } from 'discord.js';
 
 /** 
