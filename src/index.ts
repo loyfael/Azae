@@ -36,7 +36,7 @@ async function updateBotStatus() {
     const playerCount = await getMinecraftPlayerCount();
     if (client.user) {
         if (playerCount > 0) {
-            client.user.setActivity(`${playerCount} joueur(euse)s`, { type: ActivityType.Watching });
+            client.user.setActivity(`🟢 ${playerCount} joueur(euse)s`, { type: ActivityType.Watching });
         } else {
             client.user.setActivity(`*Boup bip*`, { type: ActivityType.Playing });
         }
