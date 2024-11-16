@@ -20,7 +20,7 @@ import {
 import { createModalForCategory } from '../components/modals';
 import { getModalFieldsForCategory } from '../utils/getModalFieldsForCategory';
 import { getPermissionsBasedOnTicketName } from '../utils/permissionManager';
-import { CATEGORY_ID, GAME_DEV_ROLE_ID, GUIDE_ROLE_ID, HIGHER_ROLES_IDS, MODO_ROLE_ID, SUPERMODO_ROLE_ID, TRANSCRIPT_CHANNEL_ID } from '../config/config';
+import { CATEGORY_ID, GAME_DEV_ROLE_ID, GUIDE_ROLE_ID, HIGHER_ROLES_IDS, MODO_ROLE_ID, STAFF_ROLE_ID, SUPERMODO_ROLE_ID, TRANSCRIPT_CHANNEL_ID } from '../config/config';
 import { createClaimButton, createCloseButton } from '../components/buttons';
 import { fetchChannelMessages } from '../utils/transcript';
 import { formatMessage } from '../utils/format';
@@ -183,6 +183,15 @@ async function handleButtonInteraction(interaction: ButtonInteraction, client: C
     }
 
     if (interaction.customId === 'claim_ticket') {
+        const member = interaction.member;
+
+        // Vérifiez si le membre a le rôle STAFF_ROLE_ID
+        if (!member || !(member.roles as any).cache.has(STAFF_ROLE_ID)) {
+            await interaction.reply({ content: 'Vous n\'avez pas la permission de réclamer ce ticket !', ephemeral: true });
+            return;
+        }
+
+        // Modifier les permissions pour l'utilisateur qui a réclamé
         await channel.permissionOverwrites.edit(interaction.user.id, {
             ViewChannel: true,
             SendMessages: true,
