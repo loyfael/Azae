@@ -7,11 +7,23 @@ import {
     HIGHER_ROLES_IDS
 } from '../config/config';
 
-export function getPermissionsBasedOnTicketName(ticketName: string, guild: Guild) {
+/**
+ * Génère les permissions pour un canal de ticket en fonction de son nom.
+ * 
+ * @param ticketName - Nom du ticket pour déterminer les rôles autorisés.
+ * @param guild - Instance de la guilde Discord.
+ * @param creatorId - ID de l'utilisateur qui a créé le ticket.
+ * @returns Liste des permissions à appliquer au canal.
+ */
+export function getPermissionsBasedOnTicketName(ticketName: string, guild: Guild, creatorId: Snowflake) {
     const permissionOverwrites: Array<{ id: Snowflake; allow?: bigint[]; deny?: bigint[] }> = [
         {
             id: guild.id, // ID de @everyone
             deny: [PermissionFlagsBits.ViewChannel],
+        },
+        {
+            id: creatorId, // Permet au créateur du ticket de voir et interagir dans le canal
+            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory],
         },
     ];
 

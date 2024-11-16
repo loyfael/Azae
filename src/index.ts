@@ -52,7 +52,7 @@ client.once('ready', async () => {
     handleReady(client);
     await updateBotStatus(); // Mettre à jour le statut au démarrage
 
-    // Mettre à jour le statut toutes les 5 minutes (300000 ms)
+    console.log("Status update")
     setInterval(updateBotStatus, 60000);
 });
 

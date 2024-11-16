@@ -59,7 +59,7 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
                 const channelName = `${categoryPrefix}-${sanitizedUsername}`;
 
                 // Permissions spécifiques basées sur le nom de canal
-                const permissionOverwrites = getPermissionsBasedOnTicketName(channelName, guild);
+                const permissionOverwrites = getPermissionsBasedOnTicketName(channelName, guild, modalInteraction.user.id);
 
                 const ticketChannel = await guild.channels.create({
                     name: channelName,
