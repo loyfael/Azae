@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Partials, ActivityType } from 'discord.js';
+import { Client, GatewayIntentBits, Partials, ActivityType, EmbedBuilder } from 'discord.js';
 
 /** 
  * Importation du module dotenv pour gérer les variables d'environnement.
@@ -19,7 +19,10 @@ import { getMinecraftPlayerCount } from './utils/minecraftStatus';
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds, // Permet au bot d'accéder aux informations des serveurs (guilds)
-        GatewayIntentBits.GuildMessages // Permet au bot de recevoir les messages des salons de texte
+        GatewayIntentBits.GuildMessages, // Permet au bot de recevoir les messages des salons de texte
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildPresences, // Intents pour presenceUpdate
     ],
     partials: [
         Partials.Channel, // Permet au bot de gérer les salons partiels (par exemple, les salons DM)
@@ -54,6 +57,33 @@ client.once('ready', async () => {
 
     console.log("Status update")
     setInterval(updateBotStatus, 60000);
+});
+
+client.on('guildMemberAdd', (member) => {
+    // Créer l'embed de bienvenue
+    const embed = new EmbedBuilder()
+        .setColor(0x00AAFF) // Couleur de l'embed
+        .setTitle('Salut ! Bienvenue à toi sur BadLands. :wave:')
+        .setDescription(`
+            Je suis Azae, la mascotte des BadLands.
+
+            **Adresse IP du serveur de jeu** : \`play.badlands.fr\` 
+            (version 1.21.1 & joueurs crack acceptés !)
+
+            **Tu cherches le site web ?** [badlands.fr](https://badlands.fr/)
+            **Tu cherches la boutique ?** [badlands.fr/shop](https://badlands.fr/shop)
+            **Tu cherches de l'aide ?** <#1079388622014398575>
+
+            Bon jeu à toi !
+        `)
+        .setFooter({ text: 'Amuse-toi bien sur BadLands !' })
+        // .setThumbnail('https://example.com/azae_thumbnail.png'); // URL vers une image de ta mascotte (optionnel)
+
+    // Envoyer un message privé au membre
+    member.send({ embeds: [embed] }).catch((err) => {
+        console.error(`Impossible d'envoyer un DM à ${member.user.tag}.`);
+        console.log(err);
+    });
 });
 
 /**

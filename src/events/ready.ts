@@ -49,11 +49,12 @@ async function sendSelectMenuMessage(client: Client) {
             .setTitle('Créer un Ticket') // Titre de l'embed
             .setDescription(`
                 # Bienvenue ! :wave::skin-tone-2:
-                Cliquez sur le menu ci-dessous pour sélectionner un motif d'ouverture de ticket.
-                Lors de l'ouverture d'un ticket, n'oubliez jamais les formes et la politesse. Les tickets ouverts sans sont automatiquement fermés.
 
-                Veuillez sélectionner une catégorie pour votre ticket.
-                
+                ## :warning: Lors de l'ouverture d'un ticket, n'oubliez jamais les formes et la politesse. Les tickets ouverts sans seront automatiquement __fermés.__
+
+                ### Catégories de tickets :ticket:                
+                *Cliquez sur le menu ci-dessous pour sélectionner un motif d'ouverture de ticket.*
+
                 **Partenariat**
                 Je suis vidéaste, et je souhaite obtenir le grade Ambassadeur. 
                 Je suis membre d'une organisation et souhaite nouer un partenariat.

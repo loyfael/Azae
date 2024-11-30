@@ -112,63 +112,75 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
 }
 
 async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Client) {
-    // Récupère le canal actuel et le cast en TextChannel
     const channel = interaction.channel as TextChannel;
 
-    // Vérifie si le canal est un canal de ticket en vérifiant la présence d'un '-' dans le nom
     if (!channel || !channel.name.includes('-')) {
         await interaction.reply({ content: 'Cette action ne peut être effectuée que dans un canal de ticket.', ephemeral: true });
         return;
     }
 
-    // Récupère les informations sur le membre qui a interagi
-    const member = interaction.member;
-    const isStaff = (member?.roles as any).cache.has(GUIDE_ROLE_ID) ||
-        (member?.roles as any).cache.has(MODO_ROLE_ID) ||
-        (member?.roles as any).cache.has(SUPERMODO_ROLE_ID) ||
-        (member?.roles as any).cache.has(HIGHER_ROLES_IDS) ||
-        (member?.roles as any).cache.has(GAME_DEV_ROLE_ID);
+    const member = interaction.guild?.members.cache.get(channel.topic ?? '');
 
-    const isTicketOwner = channel.topic === interaction.user.id; // Vérifie si l'utilisateur est le créateur du ticket
+    if (!member) {
+        await interaction.reply({ content: 'Impossible de trouver le créateur du ticket.', ephemeral: true });
+        return;
+    }
 
-    // Vérifie si l'utilisateur a les permissions nécessaires pour fermer le ticket
+    const isStaff = (interaction.member?.roles as any).cache.has(STAFF_ROLE_ID) ||
+        (interaction.member?.roles as any).cache.has(MODO_ROLE_ID) ||
+        (interaction.member?.roles as any).cache.has(SUPERMODO_ROLE_ID) ||
+        (interaction.member?.roles as any).cache.has(GAME_DEV_ROLE_ID);
+
+    const isTicketOwner = channel.topic === interaction.user.id;
+
     if (!isStaff && !isTicketOwner) {
         await interaction.reply({ content: 'Vous n\'avez pas la permission de fermer ce ticket.', ephemeral: true });
         return;
     }
 
-    // Récupère le motif de fermeture fourni par l'utilisateur
     const closeReason = interaction.fields.getTextInputValue('close_reason') || 'Aucun motif fourni.';
 
-    // Essayez de générer et d'envoyer le transcript du ticket
     try {
-        // Récupère tous les messages du canal de ticket
         const messages = await fetchChannelMessages(channel);
-
-        // Formate les messages en une chaîne de caractères
         const transcript = messages.reverse().map(formatMessage).join('\n');
 
-        // Crée une pièce jointe avec le transcript
         const attachment = new AttachmentBuilder(Buffer.from(transcript, 'utf-8'), { name: `transcript-${channel.name}.txt` });
 
-        // Récupère le salon dédié aux transcripts
+        // Envoyer le transcript dans le channel de transcript (base)
         const transcriptChannel = await client.channels.fetch(TRANSCRIPT_CHANNEL_ID) as TextChannel;
         if (transcriptChannel) {
-            // Envoie le transcript dans le salon des transcripts avec le motif de fermeture
             await transcriptChannel.send({
-                content: `Transcript du ticket ${channel.name} fermé par ${interaction.user}\nMotif : ${closeReason}`,
-                files: [attachment]
+                content: `Transcript du ticket ${channel.name} fermé par ${interaction.user.tag}\nMotif : ${closeReason}`,
+                files: [attachment],
             });
         }
+
+        // Tenter d'envoyer le transcript par MP au membre
+        let dmSent = false;
+        try {
+            await member.send({
+                content: `Voici le transcript de votre ticket fermé par ${interaction.user.tag}.\nMotif : ${closeReason}`,
+                files: [attachment],
+            });
+            dmSent = true;
+        } catch (error) {
+            console.error(`Impossible d'envoyer un DM à ${member.user.tag}:`, error);
+        }
+
+        // Si l'envoi en MP échoue, mentionner le joueur dans le channel de transcript
+        if (!dmSent && transcriptChannel) {
+            await transcriptChannel.send({
+                content: `Envoi du transcript en MP au joueur échoué.\nLe transcript de <@${member.id}> n'a pas pu être envoyé en MP à cause de ses paramètres de confidentialité.`,
+            });
+        }
+
+        await interaction.reply({ content: `Ticket fermé avec succès. Le transcript a été envoyé dans le channel associé et au joueur (si possible).` });
     } catch (error) {
-        // Gère les erreurs lors de la création du transcript
-        console.error('Erreur lors de la création du transcript :', error);
+        console.error('Erreur lors de la création ou de l\'envoi du transcript :', error);
+        await interaction.reply({ content: 'Une erreur est survenue lors de la fermeture du ticket.', ephemeral: true });
     }
 
-    // Répond à l'utilisateur que le ticket a été fermé avec le motif
-    await interaction.reply({ content: `Ticket fermé par ${interaction.user}\nMotif : ${closeReason}` });
-
-    // Supprime le canal de ticket après un délai de 5 secondes pour permettre la lecture du message de confirmation
+    // Supprimer le canal après confirmation
     setTimeout(async () => {
         await channel.delete().catch(console.error);
     }, 5000);

@@ -47,7 +47,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setPlaceholder("Quel bug avez-vous rencontré(e) ?")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Champ : Comment reproduire le bug? (optionnel)
             const reproduceBugInput = new TextInputBuilder()
@@ -56,7 +56,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
                 .setPlaceholder("Expliquez-nous comment reproduire ce bug.")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Champ : Erreur dans le tchat (optionnel)
             const chatErrorInput = new TextInputBuilder()
@@ -112,7 +112,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setPlaceholder("Décrivez le problème rencontré.")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Ajout des champs spécifiques à la catégorie "plainte" dans des lignes de composants
             components.push(
@@ -149,8 +149,8 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setLabel('De quoi avez-vous besoin ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Expliquez votre besoin.")
-                .setMaxLength(850);
+                .setPlaceholder("Expliquez brievement votre besoin.")
+                .setMaxLength(500);
 
             // Ajout des champs spécifiques à la catégorie "questions_aide" dans des lignes de composants
             components.push(
@@ -187,7 +187,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setPlaceholder("Expliquez les circonstances de la perte.")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Champ : Avez-vous vu un comportement anormal du serveur ? (optionnel)
             const serverIssueInput = new TextInputBuilder()
@@ -226,7 +226,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
                 .setPlaceholder("Pour quelle raison devrions-nous retirer votre sanction ?")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Ajout des champs spécifiques à la catégorie "contestation_sanction" dans des lignes de composants
             components.push(
@@ -262,7 +262,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setPlaceholder("Pourquoi avez-vous besoin d'une intervention Haut Staff ?")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Ajout des champs spécifiques à la catégorie "intervention" dans des lignes de composants
             components.push(
@@ -283,7 +283,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setPlaceholder("Décrivez votre projet en détail.")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Ajout du champ spécifique à la catégorie "partenariats" dans une ligne de composants
             components.push(
@@ -301,7 +301,7 @@ export function createModalForCategory(category: string): ModalBuilder {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
                 .setPlaceholder("Entrez la raison de votre demande. N'oubliez pas la politesse !")
-                .setMaxLength(850);
+                .setMaxLength(500);
 
             // Ajout du champ par défaut dans une ligne de composants
             components.push(new ActionRowBuilder<TextInputBuilder>().addComponents(defaultReasonInput));
