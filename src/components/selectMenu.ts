@@ -16,7 +16,7 @@ export function createSelectMenu() {
                 .setLabel('Partenariats') // Texte visible de l'option.
                 .setValue('partenariats') // Valeur envoyée lorsqu'une option est sélectionnée.
                 .setDescription("Je veux être partenaire.") // Description de l'option pour fournir plus de contexte.
-                .setEmoji('📹'), // Emoji associé à l'option pour une meilleure visibilité.
+                .setEmoji('🎙️'), // Emoji associé à l'option pour une meilleure visibilité.
 
             // Ajout de la deuxième option : Questions & Aide
             new StringSelectMenuOptionBuilder()
@@ -37,7 +37,7 @@ export function createSelectMenu() {
                 .setLabel('Remboursements')
                 .setValue('remboursements')
                 .setDescription("J'ai perdu mon stuff à cause d'un bug.")
-                .setEmoji('🎒'),
+                .setEmoji('💰'),
 
             // Ajout de la cinquième option : Signalement de bug
             new StringSelectMenuOptionBuilder()
@@ -58,7 +58,7 @@ export function createSelectMenu() {
                 .setLabel('Intervention')
                 .setValue('intervention')
                 .setDescription("J'ai besoin d'un unclaim, afficher au spawn..")
-                .setEmoji('📩')
+                .setEmoji('⚡')
         );
 
     // Retourne le menu de sélection entièrement configuré

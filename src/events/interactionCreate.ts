@@ -112,41 +112,46 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
 }
 
 async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Client) {
-    const channel = interaction.channel as TextChannel;
-
-    if (!channel || !channel.name.includes('-')) {
-        await interaction.reply({ content: 'Cette action ne peut être effectuée que dans un canal de ticket.', ephemeral: true });
-        return;
-    }
-
-    const member = interaction.guild?.members.cache.get(channel.topic ?? '');
-
-    if (!member) {
-        await interaction.reply({ content: 'Impossible de trouver le créateur du ticket.', ephemeral: true });
-        return;
-    }
-
-    const isStaff = (interaction.member?.roles as any).cache.has(STAFF_ROLE_ID) ||
-        (interaction.member?.roles as any).cache.has(MODO_ROLE_ID) ||
-        (interaction.member?.roles as any).cache.has(SUPERMODO_ROLE_ID) ||
-        (interaction.member?.roles as any).cache.has(GAME_DEV_ROLE_ID);
-
-    const isTicketOwner = channel.topic === interaction.user.id;
-
-    if (!isStaff && !isTicketOwner) {
-        await interaction.reply({ content: 'Vous n\'avez pas la permission de fermer ce ticket.', ephemeral: true });
-        return;
-    }
-
-    const closeReason = interaction.fields.getTextInputValue('close_reason') || 'Aucun motif fourni.';
-
     try {
+        // Répond immédiatement pour éviter l'expiration de l'interaction
+        await interaction.deferReply({ ephemeral: true });
+
+        const channel = interaction.channel as TextChannel;
+
+        if (!channel || !channel.name.includes('-')) {
+            await interaction.editReply({ content: 'Cette action ne peut être effectuée que dans un canal de ticket.' });
+            return;
+        }
+
+        const member = interaction.guild?.members.cache.get(channel.topic ?? '');
+        if (!member) {
+            await interaction.editReply({ content: 'Impossible de trouver le créateur du ticket.' });
+            return;
+        }
+
+        const isStaff = (interaction.member?.roles as any).cache.has(STAFF_ROLE_ID) ||
+            (interaction.member?.roles as any).cache.has(MODO_ROLE_ID) ||
+            (interaction.member?.roles as any).cache.has(SUPERMODO_ROLE_ID) ||
+            (interaction.member?.roles as any).cache.has(GAME_DEV_ROLE_ID);
+
+        const isTicketOwner = channel.topic === interaction.user.id;
+
+        if (!isStaff && !isTicketOwner) {
+            await interaction.editReply({ content: 'Vous n\'avez pas la permission de fermer ce ticket.' });
+            return;
+        }
+
+        // Récupération des informations du formulaire
+        const closeReason = interaction.fields.getTextInputValue('close_reason') || 'Aucun motif fourni.';
+
+        // Récupération des messages du ticket
         const messages = await fetchChannelMessages(channel);
         const transcript = messages.reverse().map(formatMessage).join('\n');
 
+        // Création de l'attachement pour le transcript
         const attachment = new AttachmentBuilder(Buffer.from(transcript, 'utf-8'), { name: `transcript-${channel.name}.txt` });
 
-        // Envoyer le transcript dans le channel de transcript (base)
+        // Envoi du transcript dans le channel de transcript par défaut
         const transcriptChannel = await client.channels.fetch(TRANSCRIPT_CHANNEL_ID) as TextChannel;
         if (transcriptChannel) {
             await transcriptChannel.send({
@@ -155,7 +160,7 @@ async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Cl
             });
         }
 
-        // Tenter d'envoyer le transcript par MP au membre
+        // Tentative d'envoi du transcript en MP
         let dmSent = false;
         try {
             await member.send({
@@ -167,23 +172,35 @@ async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Cl
             console.error(`Impossible d'envoyer un DM à ${member.user.tag}:`, error);
         }
 
-        // Si l'envoi en MP échoue, mentionner le joueur dans le channel de transcript
+        // Mentionner le joueur dans le channel de transcript si le MP échoue
         if (!dmSent && transcriptChannel) {
             await transcriptChannel.send({
-                content: `Envoi du transcript en MP au joueur échoué.\nLe transcript de <@${member.id}> n'a pas pu être envoyé en MP à cause de ses paramètres de confidentialité.`,
+                content: `:warning: Le transcript n'a pas pu être envoyé au joueur à cause de ses paramètres de confidentialité.`,
             });
         }
 
-        await interaction.reply({ content: `Ticket fermé avec succès. Le transcript a été envoyé dans le channel associé et au joueur (si possible).` });
-    } catch (error) {
-        console.error('Erreur lors de la création ou de l\'envoi du transcript :', error);
-        await interaction.reply({ content: 'Une erreur est survenue lors de la fermeture du ticket.', ephemeral: true });
-    }
+        // Répondre à l'interaction pour confirmer la fermeture
+        await interaction.editReply({ content: `Ticket fermé avec succès. Le transcript a été envoyé au joueur et dans le channel de transcript.` });
 
-    // Supprimer le canal après confirmation
-    setTimeout(async () => {
-        await channel.delete().catch(console.error);
-    }, 5000);
+        // Supprimer le canal du ticket
+        setTimeout(async () => {
+            await channel.delete().catch(console.error);
+        }, 5000);
+    } catch (error) {
+        console.error('Erreur lors de la fermeture du ticket :', error);
+
+        // Répondre avec un message d'erreur au staff
+        if (!interaction.replied && !interaction.deferred) {
+            await interaction.reply({
+                content: 'Une erreur est survenue lors de la fermeture du ticket. Veuillez contacter un administrateur.',
+                ephemeral: true,
+            }).catch(console.error);
+        } else if (interaction.deferred) {
+            await interaction.editReply({
+                content: 'Une erreur est survenue lors de la fermeture du ticket. Veuillez contacter un administrateur.',
+            }).catch(console.error);
+        }
+    }
 }
 
 async function handleButtonInteraction(interaction: ButtonInteraction, client: Client) {

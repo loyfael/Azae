@@ -46,38 +46,32 @@ async function sendSelectMenuMessage(client: Client) {
 
         // Création de l'embed pour le message
         const embed = new EmbedBuilder()
-            .setTitle('Créer un Ticket') // Titre de l'embed
             .setDescription(`
-                # Bienvenue ! :wave::skin-tone-2:
+                    # Bienvenue ! :wave::skin-tone-2:
+                    ### :warning: Lors de l'ouverture d'un ticket, n'oubliez jamais les formes et la politesse. Les tickets ouverts sans seront automatiquement __fermés__.
 
-                ## :warning: Lors de l'ouverture d'un ticket, n'oubliez jamais les formes et la politesse. Les tickets ouverts sans seront automatiquement __fermés.__
+                    :microphone2: **Partenariat**
+                    Je suis créateur(trice) de contenu/membre d'une organisation, je souhaites nouer un partenariat.
 
-                ### Catégories de tickets :ticket:                
-                *Cliquez sur le menu ci-dessous pour sélectionner un motif d'ouverture de ticket.*
+                    :question: **Question / Aide**
+                    Je souhaite poser une question. J'ai envie d'organiser un événement et j'ai besoin d'aide pour l'organiser.
 
-                **Partenariat**
-                Je suis vidéaste, et je souhaite obtenir le grade Ambassadeur. 
-                Je suis membre d'une organisation et souhaite nouer un partenariat.
+                    :rage: **Plainte**
+                    J'ai un problème avec un membre de BadLands et je souhaites le signaler.
 
-                **Question / Aide**
-                Je souhaite poser une question. J'ai envie d'organiser un événement et j'ai besoin d'aide pour l'organiser.
+                    :moneybag: **Remboursement**
+                    Vous souhaitez être remboursé(e) d'items virtuels (si le problème est à cause d'un bug)
 
-                **Plainte**
-                Un joueur des BadLands me dérange. Je souhaite déposer plainte envers celui-ci.
+                    :bug: **Signalement de bug**
+                    J'ai rencontré(e) un problème / un comportement anormal du serveur de jeu et souhaite le signaler.
 
-                **Remboursement**
-                Vous avez perdu votre stuff à cause d'un bug.
+                    :speaking_head: **Contestation de sanction**
+                    J'ai été sanctionné(e) et conteste ma sanction.
 
-                **Signalement de bug**
-                J'ai rencontré un problème / un comportement anormal du serveur de jeu et souhaite le signaler.
-
-                **Contestation de sanction**
-                J'ai été sanctionné et conteste ma sanction.
-
-                **Intervention**
-                Tickets nécessitant l'intervention d'un opérateur (Unclaim d'un land, placer une affiche dans le Spawn...)
+                    :zap: **Intervention**
+                    Tickets nécessitant l'intervention d'un opérateur (Unclaim d'un land, placer une affiche dans le Spawn..)
                 `) // Description détaillée de l'embed avec les différentes catégories de tickets
-            .setColor(0x00AE86); // Définit la couleur de l'embed (hexadécimal)
+            .setColor("#fc7703"); // Définit la couleur de l'embed (hexadécimal)
 
         // Envoie le message dans le salon avec l'embed et le menu de sélection
         await channel.send({ 
