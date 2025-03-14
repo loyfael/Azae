@@ -107,6 +107,8 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
+[**FULL LICENSE HERE**](https://github.com/loyfael/Azae/blob/main/LICENSE)
+
 ## Contact
 For any questions or support, feel free to reach out:
 - Email: aelphil@proton.me
