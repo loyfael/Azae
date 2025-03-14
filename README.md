@@ -121,4 +121,4 @@ SOFTWARE.
 ## Contact
 For any questions or support, feel free to reach out:
 - Email: aelphil@proton.me
-- Discord: weirdcrow_
+- Discord: loyfael
