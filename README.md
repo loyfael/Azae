@@ -26,7 +26,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **Transcript Generation:** Automatically generates transcripts of ticket conversations for record-keeping.<br>
 **Command Deployment:** Easy deployment and management of slash commands.<br>
 **Sanitized Channel Names:** Ensures channel names comply with Discord's naming conventions.<br>
-**Minecraft server player number:** Display player numbers on your minecraft server<br>
+**Minecraft server player number:** Display player numbers on bot status<br>
 <br>
 ## Prerequisites
 Before you begin, ensure you have met the following requirements:<br>
