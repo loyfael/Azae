@@ -61,7 +61,7 @@ Create a .env file in root directory:
 ```
 DISCORD_BOT_TOKEN=your-bot-token-here
 ```
-3. Change src/config/config.ts with your own data
+3. Fill src/config/config.ts with your own data
 
 ## Managing Tickets
 - Adding Users to a Ticket:
