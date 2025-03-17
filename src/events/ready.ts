@@ -57,7 +57,7 @@ async function sendSelectMenuMessage(client: Client) {
                     Je souhaite poser une question. J'ai envie d'organiser un événement et j'ai besoin d'aide pour l'organiser.
 
                     :rage: **Plainte**
-                    J'ai un problème avec un membre de BadLands et je souhaites le signaler.
+                    J'ai un problème avec un membre de mon-serveur et je souhaites le signaler.
 
                     :moneybag: **Remboursement**
                     Vous souhaitez être remboursé(e) d'items virtuels (si le problème est à cause d'un bug)

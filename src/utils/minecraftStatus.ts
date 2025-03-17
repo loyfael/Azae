@@ -2,7 +2,7 @@
 
 import { MinecraftStatusResponse } from '../interfaces/minecraftStatusInterface';
 
-const MINECRAFT_STATUS_URL = 'https://api.mcstatus.io/v2/status/java/play.badlands.fr:25565';
+const MINECRAFT_STATUS_URL = 'https://api.mcstatus.io/v2/status/java/play.mon-serveur.fr:25565';
 
 /**
  * Get the number of players currently online on the Minecraft server.
