@@ -5,7 +5,7 @@ import {
 } from 'discord.js';
 
 // Import role's ID and category's ID from config file
-import { STAFF_ROLE_ID, CATEGORY_ID } from '../config/config'; // IDs du rôle du staff et de la catégorie des tickets
+import { STAFF_ROLE_ID, CATEGORY_ID } from '../config/config';
 
 /**
  * Define /ticket add command.
