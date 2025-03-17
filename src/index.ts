@@ -52,20 +52,13 @@ client.on('guildMemberAdd', (member) => {
     // Create a new embed with a welcome message
     const embed = new EmbedBuilder()
         .setColor(0x00AAFF) // Embed color (light blue)
-        .setTitle('Salut ! Bienvenue à toi sur BadLands. :wave:')
+        .setTitle('Salut ! Bienvenue à toi sur le serveur ! :wave:')
         .setDescription(`
-            Je suis Azae, la mascotte des BadLands.
-
-            **Adresse IP du serveur de jeu** : \`play.badlands.fr\` 
-            (version 1.21.1 & joueurs crack acceptés !)
-
-            **Tu cherches le site web ?** [badlands.fr](https://badlands.fr/)
-            **Tu cherches la boutique ?** [badlands.fr/shop](https://badlands.fr/shop)
-            **Tu cherches de l'aide ?** <#1079388622014398575>
-
-            Bon jeu à toi !
+            Je suis Azae.
+                
+            Lorem ipsum dolor sit amet
         `)
-        .setFooter({ text: 'Amuse-toi bien sur BadLands !' })
+        .setFooter({ text: 'Amuse-toi bien !' })
         // .setThumbnail('https://example.com/azae_thumbnail.png'); // Add a thumbnail image if needed
 
     // Send the embed as a direct message to the new member
