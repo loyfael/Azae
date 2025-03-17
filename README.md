@@ -29,7 +29,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **Minecraft server player number:** Display player numbers on your minecraft server<br>
 <br>
 ## Prerequisites
-Before you begin, ensure you have met the following requirements:
+Before you begin, ensure you have met the following requirements:<br>
 **Node.js:** Version 20.10 or higher is required. [You can download it here.](https://nodejs.org/fr/download)<br>
 **Discord Account:** You need a Discord account to create a bot and add it to your server.<br>
 **Discord Server:** Access to a Discord server where you have permissions to add bots and manage roles.<br>
