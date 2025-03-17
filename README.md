@@ -30,9 +30,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 <br>
 ## Prerequisites
 Before you begin, ensure you have met the following requirements:
-**Node.js:** Version 20.10 or higher is required. [You can download it here.](https://nodejs.org/fr/download)
-**Discord Account:** You need a Discord account to create a bot and add it to your server.
-**Discord Server:** Access to a Discord server where you have permissions to add bots and manage roles.
+**Node.js:** Version 20.10 or higher is required. [You can download it here.](https://nodejs.org/fr/download)<br>
+**Discord Account:** You need a Discord account to create a bot and add it to your server.<br>
+**Discord Server:** Access to a Discord server where you have permissions to add bots and manage roles.<br>
 
 ## Installation
 ### Clone the Repository:
