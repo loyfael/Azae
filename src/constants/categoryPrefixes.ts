@@ -1,65 +1,65 @@
 /**
- * Objet de mappage des préfixes associés à chaque catégorie de ticket.
+ * Mapping object of prefixes associated with each ticket category.
  * 
- * Ce mappage est utilisé pour générer des noms de salons ou pour organiser
- * les tickets en fonction de leur catégorie spécifique. Chaque clé représente
- * une catégorie de ticket, et sa valeur correspond au préfixe utilisé pour
- * identifier ou nommer les salons associés.
+ * This mapping is used to generate channel names or to organize
+ * tickets based on their specific category. Each key represents
+ * a ticket category, and its value corresponds to the prefix used to
+ * identify or name the associated channels.
  */
 export const categoryPrefixes: { [key: string]: string } = {
     /**
-     * Catégorie : Signalement de bug
-     * Préfixe associé : 'bug'
+     * Category: Bug report
+     * Associated prefix: 'bug'
      * 
-     * Utilisé pour identifier les tickets relatifs aux bugs signalés par les utilisateurs.
+     * Used to identify tickets related to bugs reported by users.
      */
     'signalement_bug': 'bug',
 
     /**
-     * Catégorie : Plainte
-     * Préfixe associé : 'plainte'
+     * Category: Complaint
+     * Associated prefix: 'plainte'
      * 
-     * Utilisé pour les tickets où un utilisateur souhaite déposer une plainte contre un autre joueur.
+     * Used for tickets where a user wants to file a complaint against another player.
      */
     'plainte': 'plainte',
 
     /**
-     * Catégorie : Remboursements
-     * Préfixe associé : 'refund'
+     * Category: Refunds
+     * Associated prefix: 'refund'
      * 
-     * Utilisé pour les tickets concernant les demandes de remboursement, par exemple, perte d'objets due à un bug.
+     * Used for tickets concerning refund requests, such as loss of items due to a bug.
      */
     'remboursements': 'refund',
 
     /**
-     * Catégorie : Contestation de sanction
-     * Préfixe associé : 'protest'
+     * Category: Contest sanction
+     * Associated prefix: 'protest'
      * 
-     * Utilisé pour les tickets où un utilisateur souhaite contester une sanction reçue.
+     * Used for tickets where a user wants to contest a received sanction.
      */
     'contestation_sanction': 'protest',
 
     /**
-     * Catégorie : Questions & Aide
-     * Préfixe associé : 'question'
+     * Category: Questions & Help
+     * Associated prefix: 'question'
      * 
-     * Utilisé pour les tickets où un utilisateur a des questions ou a besoin d'assistance.
+     * Used for tickets where a user has questions or needs assistance.
      */
     'questions_aide': 'question',
 
     /**
-     * Catégorie : Intervention
-     * Préfixe associé : 'inter'
+     * Category: Intervention
+     * Associated prefix: 'inter'
      * 
-     * Utilisé pour les tickets nécessitant une intervention spécifique du staff, comme un unclaim ou une apparition au spawn.
+     * Used for tickets requiring specific staff intervention, such as an unclaim or spawn appearance.
      */
     'intervention': 'inter',
 
     /**
-     * Catégorie : Partenariats
-     * Préfixe associé : 'partena'
+     * Category: Partnerships
+     * Associated prefix: 'partena'
      * 
-     * Utilisé pour les tickets liés aux demandes de partenariat avec le serveur.
+     * Used for tickets related to partnership requests with the server.
      */
     'partenariats': 'partena'
 };

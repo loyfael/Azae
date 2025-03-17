@@ -51,14 +51,14 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
             }
 
             try {
-                // Récupération du préfixe pour la catégorie via categoryPrefixes
+                // Retrieve the prefix for the category via categoryPrefixes
                 const categoryPrefix = categoryPrefixes[selectedCategory] || selectedCategory;
 
-                // Sanitize le nom d'utilisateur et construit le nom de canal
+                // Sanitize the username and construct the channel name
                 const sanitizedUsername = sanitizeChannelName(modalInteraction.user.username);
                 const channelName = `${categoryPrefix}-${sanitizedUsername}`;
 
-                // Permissions spécifiques basées sur le nom de canal
+                // Specific permissions based on the channel name
                 const permissionOverwrites = getPermissionsBasedOnTicketName(channelName, guild, modalInteraction.user.id);
 
                 const ticketChannel = await guild.channels.create({
@@ -113,7 +113,7 @@ export async function handleInteractionCreate(client: Client, interaction: Inter
 
 async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Client) {
     try {
-        // Répond immédiatement pour éviter l'expiration de l'interaction
+        // Respond immediately to avoid interaction expiration
         await interaction.deferReply({ ephemeral: true });
 
         const channel = interaction.channel as TextChannel;
@@ -144,14 +144,14 @@ async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Cl
         // Récupération des informations du formulaire
         const closeReason = interaction.fields.getTextInputValue('close_reason') || 'Aucun motif fourni.';
 
-        // Récupération des messages du ticket
+        // Retrieve ticket messages
         const messages = await fetchChannelMessages(channel);
         const transcript = messages.reverse().map(formatMessage).join('\n');
 
-        // Création de l'attachement pour le transcript
+        // Create attachment for the transcript
         const attachment = new AttachmentBuilder(Buffer.from(transcript, 'utf-8'), { name: `transcript-${channel.name}.txt` });
 
-        // Envoi du transcript dans le channel de transcript par défaut
+        // Send the transcript to the default transcript channel
         const transcriptChannel = await client.channels.fetch(TRANSCRIPT_CHANNEL_ID) as TextChannel;
         if (transcriptChannel) {
             await transcriptChannel.send({
@@ -160,7 +160,7 @@ async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Cl
             });
         }
 
-        // Tentative d'envoi du transcript en MP
+        // Attempt to send the transcript via DM
         let dmSent = false;
         try {
             await member.send({
@@ -172,7 +172,7 @@ async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Cl
             console.error(`Impossible d'envoyer un DM à ${member.user.tag}:`, error);
         }
 
-        // Mentionner le joueur dans le channel de transcript si le MP échoue
+        // Mention the player in the transcript channel if DM fails
         if (!dmSent && transcriptChannel) {
             await transcriptChannel.send({
                 content: `:warning: Le transcript n'a pas pu être envoyé au joueur à cause de ses paramètres de confidentialité.`,
@@ -182,14 +182,14 @@ async function handleCloseTicket(interaction: ModalSubmitInteraction, client: Cl
         // Répondre à l'interaction pour confirmer la fermeture
         await interaction.editReply({ content: `Ticket fermé avec succès. Le transcript a été envoyé au joueur et dans le channel de transcript.` });
 
-        // Supprimer le canal du ticket
+        // Delete the ticket channel
         setTimeout(async () => {
             await channel.delete().catch(console.error);
         }, 5000);
     } catch (error) {
         console.error('Erreur lors de la fermeture du ticket :', error);
 
-        // Répondre avec un message d'erreur au staff
+        // Respond with an error message to the staff
         if (!interaction.replied && !interaction.deferred) {
             await interaction.reply({
                 content: 'Une erreur est survenue lors de la fermeture du ticket. Veuillez contacter un administrateur.',
@@ -214,13 +214,13 @@ async function handleButtonInteraction(interaction: ButtonInteraction, client: C
     if (interaction.customId === 'claim_ticket') {
         const member = interaction.member;
 
-        // Vérifiez si le membre a le rôle STAFF_ROLE_ID
+        // Check if the member has the STAFF_ROLE_ID role
         if (!member || !(member.roles as any).cache.has(STAFF_ROLE_ID)) {
             await interaction.reply({ content: 'Vous n\'avez pas la permission de réclamer ce ticket !', ephemeral: true });
             return;
         }
 
-        // Modifier les permissions pour l'utilisateur qui a réclamé
+        // Modify permissions for the user who claimed the ticket
         await channel.permissionOverwrites.edit(interaction.user.id, {
             ViewChannel: true,
             SendMessages: true,

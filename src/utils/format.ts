@@ -1,36 +1,36 @@
-// Importation de la classe Message depuis discord.js
+// Import the Message class from discord.js
 import { Message } from 'discord.js';
 
 /**
- * Formate un message Discord en une chaîne de caractères lisible.
+ * Formats a Discord message into a readable string.
  * 
- * Cette fonction est utilisée pour créer des transcripts de salons de tickets en
- * convertissant les messages Discord en une représentation textuelle simple.
- * Elle inclut le contenu du message, les embeds et les pièces jointes.
+ * This function is used to create transcripts of ticket channels by
+ * converting Discord messages into a simple textual representation.
+ * It includes the message content, embeds, and attachments.
  * 
- * @param {Message} message - Le message Discord à formater.
- * @returns {string} La représentation textuelle formatée du message.
+ * @param {Message} message - The Discord message to format.
+ * @returns {string} The formatted textual representation of the message.
  */
 export function formatMessage(message: Message): string {
-    // Récupère le tag de l'auteur du message (par exemple, "Username#1234")
+    // Retrieve the author's tag (e.g., "Username#1234")
     const author = `${message.author.tag}`;
     
-    // Initialise le contenu du message avec le texte du message ou une chaîne vide si aucun contenu
+    // Initialize the message content with the message text or an empty string if no content
     let content = message.content || '';
 
-    // Vérifie si le message contient des embeds et les inclut dans le contenu formaté
+    // Check if the message contains embeds and include them in the formatted content
     if (message.embeds.length > 0) {
-        content += '\n[Embed]'; // Indique la présence d'un embed
+        content += '\n[Embed]'; // Indicates the presence of an embed
 
-        // Parcourt chaque embed dans le message
+        // Iterate over each embed in the message
         message.embeds.forEach(embed => {
-            // Si l'embed a un titre, l'ajoute au contenu
-            if (embed.title) content += `\nTitre: ${embed.title}`;
+            // If the embed has a title, add it to the content
+            if (embed.title) content += `\nTitle: ${embed.title}`;
             
-            // Si l'embed a une description, l'ajoute au contenu
+            // If the embed has a description, add it to the content
             if (embed.description) content += `\nDescription: ${embed.description}`;
             
-            // Si l'embed a des champs, les ajoute au contenu
+            // If the embed has fields, add them to the content
             if (embed.fields) {
                 embed.fields.forEach(field => {
                     content += `\n${field.name}: ${field.value}`;
@@ -39,16 +39,16 @@ export function formatMessage(message: Message): string {
         });
     }
 
-    // Vérifie si le message contient des pièces jointes et les inclut dans le contenu formaté
+    // Check if the message contains attachments and include them in the formatted content
     if (message.attachments.size > 0) {
-        content += '\n[Pièces jointes]'; // Indique la présence de pièces jointes
+        content += '\n[Attachments]'; // Indicates the presence of attachments
 
-        // Parcourt chaque pièce jointe dans le message
+        // Iterate over each attachment in the message
         message.attachments.forEach(attachment => {
-            content += `\n${attachment.url}`; // Ajoute l'URL de la pièce jointe au contenu
+            content += `\n${attachment.url}`; // Add the attachment URL to the content
         });
     }
 
-    // Retourne la chaîne formatée avec l'auteur et le contenu du message
+    // Return the formatted string with the author and message content
     return `${author}: ${content}`;
 }

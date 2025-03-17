@@ -1,124 +1,124 @@
 import { ModalSubmitInteraction } from 'discord.js';
 
 /**
- * Récupère les valeurs des champs de la modale en fonction de la catégorie sélectionnée.
+ * Retrieves the values of the modal fields based on the selected category.
  * 
- * Cette fonction est utilisée lors de la soumission d'une modale pour extraire les données
- * spécifiques fournies par l'utilisateur. Chaque catégorie de ticket a des champs distincts,
- * et cette fonction s'assure que seules les informations pertinentes sont collectées.
+ * This function is used when a modal is submitted to extract the specific data
+ * provided by the user. Each ticket category has distinct fields, and this function
+ * ensures that only relevant information is collected.
  * 
- * @param {string} category - La catégorie du ticket pour laquelle les champs doivent être récupérés.
- * @param {ModalSubmitInteraction} interaction - L'interaction de soumission de la modale contenant les données saisies par l'utilisateur.
- * @returns {{ [key: string]: string }} Un objet contenant les noms des champs et leurs valeurs correspondantes.
+ * @param {string} category - The ticket category for which the fields should be retrieved.
+ * @param {ModalSubmitInteraction} interaction - The modal submit interaction containing the user-entered data.
+ * @returns {{ [key: string]: string }} An object containing the field names and their corresponding values.
  */
 export function getModalFieldsForCategory(category: string, interaction: ModalSubmitInteraction): { [key: string]: string } {
-    // Initialisation d'un objet pour stocker les champs et leurs valeurs
+    // Initialize an object to store the fields and their values
     const fields: { [key: string]: string } = {};
 
-    // Récupère la valeur du champ commun "Pseudo en jeu" et l'ajoute à l'objet fields
+    // Retrieve the value of the common field "Pseudo en jeu" and add it to the fields object
     fields['Pseudo en jeu'] = interaction.fields.getTextInputValue('Pseudo en jeu');
 
-    // Utilisation d'une structure switch pour gérer les champs spécifiques à chaque catégorie
+    // Use a switch structure to handle the fields specific to each category
     switch (category) {
         case 'signalement_bug':
-            // Catégorie : Signalement de bug
+            // Category: Bug report
 
-            // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
+            // Retrieve the value of the "Serveur/Monde" field or set a default value
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Description du bug"
+            // Retrieve the value of the "Description du bug" field
             fields['Description du bug'] = interaction.fields.getTextInputValue('Description du bug');
 
-            // Récupère la valeur du champ "Comment reproduire le bug" ou définit par défaut
+            // Retrieve the value of the "Comment reproduire le bug" field or set a default value
             fields['Comment reproduire le bug'] = interaction.fields.getTextInputValue('Comment reproduire le bug') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Erreur dans le tchat" ou définit par défaut
+            // Retrieve the value of the "Erreur dans le tchat" field or set a default value
             fields['Erreur dans le tchat'] = interaction.fields.getTextInputValue('Erreur dans le tchat') || 'Non spécifié';
             break;
 
         case 'plainte':
-            // Catégorie : Plainte
+            // Category: Complaint
 
-            // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
+            // Retrieve the value of the "Serveur/Monde" field or set a default value
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Position" ou définit par défaut
+            // Retrieve the value of the "Position" field or set a default value
             fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Pseudo du/des fautif(s)"
+            // Retrieve the value of the "Pseudo du/des fautif(s)" field
             fields['Pseudo du/des fautif(s)'] = interaction.fields.getTextInputValue('Pseudo du/des fautif(s)');
 
-            // Récupère la valeur du champ "Description du problème"
+            // Retrieve the value of the "Description du problème" field
             fields['Description du problème'] = interaction.fields.getTextInputValue('Description du problème');
             break;
 
         case 'questions_aide':
-            // Catégorie : Questions & Aide
+            // Category: Questions & Help
 
-            // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
+            // Retrieve the value of the "Serveur/Monde" field or set a default value
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Position" ou définit par défaut
+            // Retrieve the value of the "Position" field or set a default value
             fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Votre demande"
+            // Retrieve the value of the "Votre demande" field
             fields['Votre demande'] = interaction.fields.getTextInputValue('Votre demande');
             break;
 
         case 'remboursements':
-            // Catégorie : Remboursements
+            // Category: Refunds
 
-            // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
+            // Retrieve the value of the "Serveur/Monde" field or set a default value
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
             
-            // Récupère la valeur du champ "Position" ou définit par défaut
+            // Retrieve the value of the "Position" field or set a default value
             fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Comment avez-vous perdu vos équipements ?"
+            // Retrieve the value of the "Comment avez-vous perdu vos équipements ?" field
             fields['Comment avez-vous perdu vos équipements ?'] = interaction.fields.getTextInputValue('Comment avez-vous perdu vos équipements');
 
-            // Récupère la valeur du champ "Comportement anormal du serveur ?" ou définit par défaut
+            // Retrieve the value of the "Comportement anormal du serveur ?" field or set a default value
             fields['Comportement anormal du serveur ?'] = interaction.fields.getTextInputValue('Comportement anormal du serveur') || 'Non spécifié';
             break;
 
         case 'contestation_sanction':
-            // Catégorie : Contestation de sanction
+            // Category: Contest sanction
 
-            // Récupère la valeur du champ "Pourquoi avez-vous été sanctionné ?"
+            // Retrieve the value of the "Pourquoi avez-vous été sanctionné ?" field
             fields['Pourquoi avez-vous été sanctionné ?'] = interaction.fields.getTextInputValue('Raison de la sanction');
 
-            // Récupère la valeur du champ "Pourquoi retirer votre sanction ?" ou définit par défaut
+            // Retrieve the value of the "Pourquoi retirer votre sanction ?" field or set a default value
             fields['Pourquoi retirer votre sanction ?'] = interaction.fields.getTextInputValue('Raison du retrait de la sanction') || 'Non spécifié';
             break;
 
         case 'intervention':
-            // Catégorie : Intervention
+            // Category: Intervention
 
-            // Récupère la valeur du champ "Serveur/Monde" ou définit par défaut
+            // Retrieve the value of the "Serveur/Monde" field or set a default value
             fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Position" ou définit par défaut
+            // Retrieve the value of the "Position" field or set a default value
             fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
 
-            // Récupère la valeur du champ "Pourquoi une intervention Haut Staff ?"
+            // Retrieve the value of the "Pourquoi une intervention Haut Staff ?" field
             fields['Pourquoi une intervention Haut Staff ?'] = interaction.fields.getTextInputValue('Raison de l\'intervention');
             break;
 
         case 'partenariats':
-            // Catégorie : Partenariats
+            // Category: Partnerships
 
-            // Récupère la valeur du champ "Présentation du projet"
+            // Retrieve the value of the "Présentation du projet" field
             fields['Présentation du projet'] = interaction.fields.getTextInputValue('Présentation du projet');
             break;
 
         default:
-            // Catégorie par défaut si aucune correspondance n'est trouvée
+            // Default category if no match is found
 
-            // Récupère la valeur du champ "Raison du ticket"
+            // Retrieve the value of the "Raison du ticket" field
             fields['Raison du ticket'] = interaction.fields.getTextInputValue('Raison du ticket');
             break;
     }
 
-    // Retourne l'objet contenant les champs et leurs valeurs
+    // Return the object containing the fields and their values
     return fields;
 }

@@ -5,46 +5,46 @@ import {
     ActionRowBuilder, 
     StringSelectMenuBuilder 
 } from 'discord.js';
-import { createSelectMenu } from '../components/selectMenu'; // Fonction pour créer le menu de sélection des catégories
-import { CHANNEL_ID } from '../config/config'; // Constante contenant l'ID du salon où envoyer le message du menu
+import { createSelectMenu } from '../components/selectMenu'; // Function to create the category selection menu
+import { CHANNEL_ID } from '../config/config'; // Constant containing the ID of the channel to send the menu message
 
 /**
- * Fonction appelée lorsque le bot Discord est prêt et connecté.
+ * Function called when the Discord bot is ready and connected.
  * 
- * @param {Client} client - Le client Discord.
+ * @param {Client} client - The Discord client.
  */
 export async function handleReady(client: Client) {
-    // Affiche dans la console que le bot est connecté, avec son tag utilisateur
-    console.log(`Connecté en tant que ${client.user?.tag}`);
+    // Log to the console that the bot is connected, with its user tag
+    console.log(`Connected as ${client.user?.tag}`);
     
-    // Envoie le message avec le menu de sélection dans le salon spécifié
+    // Send the message with the selection menu in the specified channel
     await sendSelectMenuMessage(client);
 }
 
 /**
- * Envoie un message contenant un embed et un menu de sélection dans un salon spécifique.
+ * Sends a message containing an embed and a selection menu in a specific channel.
  * 
- * Ce message permet aux utilisateurs de sélectionner une catégorie pour ouvrir un ticket.
+ * This message allows users to select a category to open a ticket.
  * 
- * @param {Client} client - Le client Discord.
+ * @param {Client} client - The Discord client.
  */
 async function sendSelectMenuMessage(client: Client) {
     try {
-        // Récupère le salon Discord en utilisant l'ID spécifié dans la configuration
+        // Fetch the Discord channel using the ID specified in the configuration
         const channel = await client.channels.fetch(CHANNEL_ID) as TextChannel;
         if (!channel) {
-            // Log une erreur si le salon n'est pas trouvé
-            console.error('Salon non trouvé.');
+            // Log an error if the channel is not found
+            console.error('Channel not found.');
             return;
         }
 
-        // Crée le menu de sélection en utilisant la fonction personnalisée
+        // Create the selection menu using the custom function
         const selectMenu = createSelectMenu();
 
-        // Crée une ligne d'action et y ajoute le menu de sélection
+        // Create an action row and add the selection menu to it
         const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
-        // Création de l'embed pour le message
+        // Create the embed for the message
         const embed = new EmbedBuilder()
             .setDescription(`
                     # Bienvenue ! :wave::skin-tone-2:
@@ -70,19 +70,19 @@ async function sendSelectMenuMessage(client: Client) {
 
                     :zap: **Intervention**
                     Tickets nécessitant l'intervention d'un opérateur (Unclaim d'un land, placer une affiche dans le Spawn..)
-                `) // Description détaillée de l'embed avec les différentes catégories de tickets
-            .setColor("#fc7703"); // Définit la couleur de l'embed (hexadécimal)
+                `) // Detailed description of the embed with the different ticket categories
+            .setColor("#fc7703"); // Sets the color of the embed (hexadecimal)
 
-        // Envoie le message dans le salon avec l'embed et le menu de sélection
+        // Send the message in the channel with the embed and the selection menu
         await channel.send({ 
             embeds: [embed], 
             components: [row] 
         });
         
-        // Log dans la console que le message a été envoyé avec succès
-        console.log('Message avec le menu de sélection envoyé avec succès.');
+        // Log to the console that the message was sent successfully
+        console.log('Message with the selection menu sent successfully.');
     } catch (error) {
-        // Gère et log les erreurs potentielles lors de l'envoi du message
-        console.error('Erreur lors de l\'envoi du message :', error);
+        // Handle and log potential errors when sending the message
+        console.error('Error sending the message:', error);
     }
 }

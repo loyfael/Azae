@@ -4,13 +4,13 @@ import {
     TextChannel, 
 } from 'discord.js';
 
-// Importation des constantes de configuration personnalisées
+// Import role's ID and category's ID from config file
 import { STAFF_ROLE_ID, CATEGORY_ID } from '../config/config'; // IDs du rôle du staff et de la catégorie des tickets
 
 /**
- * Définition de la commande slash `/ticket add`.
+ * Define /ticket add command.
  * 
- * Cette commande permet aux membres du staff d'ajouter un utilisateur à un canal de ticket existant.
+ * This command allows staff members to add users to a specific ticket channel.
  */
 export const data = new SlashCommandBuilder()
     .setName('ticket') // Nom de la commande principale
@@ -27,37 +27,37 @@ export const data = new SlashCommandBuilder()
     );
 
 /**
- * Exécute la commande `/ticket add`.
+ * Execute`/ticket add` command.
  * 
- * Cette fonction gère l'ajout d'un utilisateur à un canal de ticket spécifique en ajustant les permissions du canal.
+ * This function allows staff members to add users to a specific ticket channel.
  * 
- * @param {ChatInputCommandInteraction} interaction - L'interaction de commande chat input.
+ * @param {ChatInputCommandInteraction} interaction - The interaction object.
  */
 export async function execute(interaction: ChatInputCommandInteraction) {
-    // Vérifie si l'interaction est bien une commande de type ChatInput
+    // Verify if the interaction is a command
     if (!interaction.isChatInputCommand()) return;
 
-    // Récupère le sous-commande utilisé
+    // Get the subcommand used by the user
     const subcommand = interaction.options.getSubcommand();
 
-    // Traite le sous-commande 'add'
+    // Process the subcommand
     if (subcommand === 'add') {
-        // Récupère le canal où la commande a été utilisée et le cast en TextChannel
+        // Get the channel where the interaction took place
         const channel = interaction.channel as TextChannel;
 
-        // Vérifie si le canal existe, s'il a un parent, et si le parent correspond à la catégorie des tickets
+        // Verify if the interaction took place in a ticket channel
         if (!channel || !channel.parentId || channel.parentId !== CATEGORY_ID) {
             await interaction.reply({ 
                 content: 'Cette commande ne peut être utilisée que dans un canal de ticket.', 
-                ephemeral: true // Message visible uniquement à l'utilisateur ayant exécuté la commande
+                ephemeral: true // Visible message only to the user
             });
             return;
         }
 
-        // Récupère les informations du membre qui a exécuté la commande
+        // Get the member who used the command
         const member = interaction.member;
 
-        // Vérifie si le membre existe et s'il possède le rôle du staff
+        // Verify if the member is a staff member
         if (!member || !(member.roles as any).cache.has(STAFF_ROLE_ID)) {
             await interaction.reply({ 
                 content: 'Vous n\'avez pas la permission d\'utiliser cette commande.', 
@@ -66,13 +66,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             return;
         }
 
-        // Récupère l'utilisateur à ajouter depuis les options de la commande
+        // Get the user to add to the ticket
         const user = interaction.options.getUser('utilisateur', true);
 
-        // Récupère le serveur (guild) où l'interaction a eu lieu
+        // Get the guild where the interaction took place
         const guild = interaction.guild;
 
-        // Vérifie si l'interaction a eu lieu dans un serveur
+        // Verify if the guild exists
         if (!guild) {
             await interaction.reply({ 
                 content: 'Impossible d\'ajouter un utilisateur en dehors d\'un serveur.', 
@@ -81,10 +81,10 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             return;
         }
 
-        // Récupère le membre de l'utilisateur à ajouter dans le serveur
+        // Get the member to add to the ticket
         const memberToAdd = guild.members.cache.get(user.id);
 
-        // Vérifie si l'utilisateur est bien membre du serveur
+        // Verifyt if the member exists
         if (!memberToAdd) {
             await interaction.reply({ 
                 content: 'Utilisateur non trouvé dans le serveur.', 
@@ -94,23 +94,23 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         }
 
         try {
-            // Ajoute ou met à jour les permissions pour l'utilisateur dans le canal de ticket
+            // Add the user to the ticket channel
             await channel.permissionOverwrites.create(user.id, {
-                ViewChannel: true, // Permet à l'utilisateur de voir le canal
-                SendMessages: true, // Permet à l'utilisateur d'envoyer des messages dans le canal
-                ReadMessageHistory: true, // Permet à l'utilisateur de lire l'historique des messages
+                ViewChannel: true, // Permit the user to view the channel
+                SendMessages: true, // Permit the user to send messages
+                ReadMessageHistory: true, // Permit the user to read the message history
             });
 
-            // Répond à l'utilisateur que l'ajout a été effectué avec succès
+            // Answer to the user that the user has been added to the ticket
             await interaction.reply({ 
                 content: `${user} a été ajouté au ticket.`, 
                 ephemeral: false // Message visible par tous les membres du canal
             });
         } catch (error) {
-            // Log l'erreur dans la console pour le dépannage
+            // Log the error in the console
             console.error('Erreur lors de l\'ajout de l\'utilisateur au ticket :', error);
 
-            // Répond à l'utilisateur qu'une erreur est survenue
+            // Answer to the user that an error occurred
             await interaction.reply({ 
                 content: 'Une erreur est survenue lors de l\'ajout de l\'utilisateur au ticket.', 
                 ephemeral: true 

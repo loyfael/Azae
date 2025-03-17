@@ -1,37 +1,27 @@
 import { Client, GatewayIntentBits, Partials, ActivityType, EmbedBuilder } from 'discord.js';
-
-/** 
- * Importation du module dotenv pour gérer les variables d'environnement.
- * Le .env contient des données sensibles mais obligatoire au fonctionnement
- * du bot tel que son token.
- */ 
 import dotenv from 'dotenv';
-dotenv.config(); // Charge les variables d'environnement depuis le fichier .env
-
-// Importation des gestionnaires d'événements personnalisés
-import { handleReady } from './events/ready'; // Gestionnaire pour l'événement 'ready'
-import { handleInteractionCreate } from './events/interactionCreate'; // Gestionnaire pour l'événement 'interactionCreate'
-
-// Importation de la fonction pour récupérer le nombre de joueurs Minecraft
+dotenv.config(); 
+import { handleReady } from './events/ready';
+import { handleInteractionCreate } from './events/interactionCreate';
 import { getMinecraftPlayerCount } from './utils/minecraftStatus';
 
-// Création d'une nouvelle instance de Client Discord avec les intents et partials nécessaires
+// Create a new Discord client
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds, // Permet au bot d'accéder aux informations des serveurs (guilds)
-        GatewayIntentBits.GuildMessages, // Permet au bot de recevoir les messages des salons de texte
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildPresences, // Intents pour presenceUpdate
+        GatewayIntentBits.GuildPresences,
     ],
     partials: [
-        Partials.Channel, // Permet au bot de gérer les salons partiels (par exemple, les salons DM)
-        Partials.Message // Permet au bot de gérer les messages partiels (par exemple, les messages non cachés au démarrage)
+        Partials.Channel,
+        Partials.Message
     ]
 });
 
 /**
- * Fonction pour mettre à jour le statut du bot avec le nombre de joueurs Minecraft.
+ * Function to update the bot's status based on the number of players on the Minecraft server.
  */
 async function updateBotStatus() {
     const playerCount = await getMinecraftPlayerCount();
@@ -45,24 +35,23 @@ async function updateBotStatus() {
 }
 
 /**
- * Gestionnaire de l'événement 'ready'.
+ * Event manager for the 'ready' event.
  * 
- * Cet événement est émis lorsque le bot Discord est connecté et prêt à être utilisé.
- * Il appelle la fonction `handleReady` pour effectuer les initialisations nécessaires.
- * Il met également à jour le statut du bot et configure la mise à jour périodique.
+ * This event is emitted once the bot is ready and connected to Discord.
  */
 client.once('ready', async () => {
     handleReady(client);
-    await updateBotStatus(); // Mettre à jour le statut au démarrage
+    await updateBotStatus(); // Update bot status immediately after connecting
 
     console.log("Status update")
     setInterval(updateBotStatus, 60000);
 });
 
+// Send a welcome message to new members when they join the server
 client.on('guildMemberAdd', (member) => {
-    // Créer l'embed de bienvenue
+    // Create a new embed with a welcome message
     const embed = new EmbedBuilder()
-        .setColor(0x00AAFF) // Couleur de l'embed
+        .setColor(0x00AAFF) // Embed color (light blue)
         .setTitle('Salut ! Bienvenue à toi sur BadLands. :wave:')
         .setDescription(`
             Je suis Azae, la mascotte des BadLands.
@@ -77,9 +66,9 @@ client.on('guildMemberAdd', (member) => {
             Bon jeu à toi !
         `)
         .setFooter({ text: 'Amuse-toi bien sur BadLands !' })
-        // .setThumbnail('https://example.com/azae_thumbnail.png'); // URL vers une image de ta mascotte (optionnel)
+        // .setThumbnail('https://example.com/azae_thumbnail.png'); // Add a thumbnail image if needed
 
-    // Envoyer un message privé au membre
+    // Send the embed as a direct message to the new member
     member.send({ embeds: [embed] }).catch((err) => {
         console.error(`Impossible d'envoyer un DM à ${member.user.tag}.`);
         console.log(err);
@@ -87,18 +76,17 @@ client.on('guildMemberAdd', (member) => {
 });
 
 /**
- * Gestionnaire de l'événement 'interactionCreate'.
+ * Event manager for the 'interactionCreate' event.
  * 
- * Cet événement est émis chaque fois qu'une interaction est créée (par exemple, un clic sur un bouton, une sélection dans un menu, etc.).
- * Il appelle la fonction `handleInteractionCreate` pour traiter l'interaction en fonction de son type et de son contenu.
+ * This event is emitted whenever an interaction is created, such as a slash command or button click.
  */
 client.on('interactionCreate', (interaction) => {
     handleInteractionCreate(client, interaction);
 });
 
 /**
- * Connexion du bot à Discord en utilisant le token fourni dans les variables d'environnement.
+ * Log in to Discord using the bot token.
  * 
- * Assurez-vous que le fichier `.env` contient la variable `DISCORD_BOT_TOKEN` avec le token de votre bot.
+ * The bot token is stored in the `.env` file and loaded using the `dotenv` module.
  */
 client.login(process.env.DISCORD_BOT_TOKEN);

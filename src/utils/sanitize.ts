@@ -1,19 +1,19 @@
 /**
- * Sanitize un nom de canal pour qu'il soit conforme aux exigences de Discord.
+ * Sanitize a channel name to comply with Discord's requirements.
  * 
- * Cette fonction nettoie le nom d'un canal en supprimant tous les caractères qui ne sont pas
- * des lettres (a-z, A-Z), des chiffres (0-9), des tirets bas (_) ou des tirets (-).
- * De plus, elle limite la longueur du nom du canal à 100 caractères, conformément aux
- * limitations imposées par Discord.
+ * This function cleans up a channel name by removing all characters that are not
+ * letters (a-z, A-Z), numbers (0-9), underscores (_), or hyphens (-).
+ * Additionally, it limits the length of the channel name to 100 characters, in accordance
+ * with Discord's limitations.
  * 
- * @param {string} name - Le nom original du canal à sanitiser.
- * @returns {string} Le nom du canal sanitisé, prêt à être utilisé dans Discord.
+ * @param {string} name - The original channel name to sanitize.
+ * @returns {string} The sanitized channel name, ready to be used in Discord.
  */
 export function sanitizeChannelName(name: string): string {
-    // Remplace tous les caractères qui ne sont pas des lettres, chiffres, tirets bas ou tirets par une chaîne vide.
+    // Replace all characters that are not letters, numbers, underscores, or hyphens with an empty string.
     const sanitized = name.replace(/[^a-zA-Z0-9_-]/g, '');
 
-    // Tronque le nom du canal à 100 caractères maximum, car Discord impose cette limite.
+    // Truncate the channel name to a maximum of 100 characters, as Discord imposes this limit.
     const truncated = sanitized.substring(0, 100);
 
     return truncated;

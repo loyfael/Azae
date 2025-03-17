@@ -1,67 +1,67 @@
 // src/deploy-commands.ts
 
-// Importation des classes nécessaires depuis discord.js
+// Import necessary classes from discord.js
 import { REST, Routes } from 'discord.js';
 
-// Importation des données des commandes personnalisées
-import { data as ticketAddCommand } from './commands/ticketAdd'; // Exemple de commande personnalisée
+// Import custom command data
+import { data as ticketAddCommand } from './commands/ticketAdd'; // Example of a custom command
 
-// Importation du module dotenv pour gérer les variables d'environnement
+// Import dotenv module to manage environment variables
 import dotenv from 'dotenv';
-dotenv.config(); // Charge les variables d'environnement depuis le fichier .env
+dotenv.config(); // Load environment variables from .env file
 
-// Importation des constantes de configuration personnalisées
-import { CLIENT_ID, GUILD_ID } from './config/config'; // IDs du client et du serveur (guild)
+// Import custom configuration constants
+import { CLIENT_ID, GUILD_ID } from './config/config'; // Client and guild IDs
 
 /**
- * Tableau contenant toutes les commandes à déployer.
+ * Array containing all commands to be deployed.
  * 
- * Chaque commande doit être exportée avec une propriété `data` contenant la définition de la commande.
- * La méthode `toJSON()` convertit la commande en un format compatible avec l'API Discord.
+ * Each command must be exported with a `data` property containing the command definition.
+ * The `toJSON()` method converts the command to a format compatible with the Discord API.
  */
 const commands = [
     ticketAddCommand.toJSON(),
-    // Ajoutez ici d'autres commandes si nécessaire, par exemple :
+    // Add other commands here if necessary, for example:
     // anotherCommand.toJSON(),
 ];
 
 /**
- * Instance de REST pour interagir avec l'API Discord.
+ * REST instance to interact with the Discord API.
  * 
- * - `version: '10'` : Spécifie la version de l'API Discord à utiliser.
- * - `.setToken(...)` : Définit le token du bot pour authentifier les requêtes.
+ * - `version: '10'` : Specifies the version of the Discord API to use.
+ * - `.setToken(...)` : Sets the bot token to authenticate requests.
  */
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN!);
 
 /**
- * Fonction auto-invoquée pour déployer les commandes sur un serveur Discord spécifique.
+ * Self-invoking function to deploy commands to a specific Discord server.
  * 
- * Utilise les routes de l'API Discord pour enregistrer les commandes au niveau du serveur (guild).
- * Cela permet un rafraîchissement rapide des commandes sans délai de propagation.
+ * Uses Discord API routes to register commands at the guild level.
+ * This allows for quick command refresh without propagation delay.
  */
 (async () => {
     try {
-        console.log('Rafraîchissement des commandes en cours..');
+        console.log('Refreshing commands...');
 
         /**
-         * Requête PUT à l'API Discord pour mettre à jour les commandes d'application dans une guilde spécifique.
+         * PUT request to the Discord API to update application commands in a specific guild.
          * 
-         * - `Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID)` : Spécifie l'URL de l'API pour déployer les commandes au niveau de la guilde.
-         * - `{ body: commands }` : Envoie le tableau des commandes formatées dans le corps de la requête.
+         * - `Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID)` : Specifies the API URL to deploy commands at the guild level.
+         * - `{ body: commands }` : Sends the array of formatted commands in the request body.
          */
         await rest.put(
             Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
             { body: commands },
         );
 
-        console.log('Les commandes ont été rafraîchies avec succès.');
+        console.log('Commands have been successfully refreshed.');
     } catch (error) {
         /**
-         * Gestion des erreurs lors du déploiement des commandes.
+         * Error handling during command deployment.
          * 
-         * - Log des erreurs pour le dépannage.
+         * - Log errors for troubleshooting.
          */
-        console.log(`Les commandes n'ont pas pu être rafraîchies. Erreur ci-dessous:`);
+        console.log('Commands could not be refreshed. Error below:');
         console.error(error);
     }
 })();

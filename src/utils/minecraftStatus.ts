@@ -5,8 +5,8 @@ import { MinecraftStatusResponse } from '../interfaces/minecraftStatusInterface'
 const MINECRAFT_STATUS_URL = 'https://api.mcstatus.io/v2/status/java/play.badlands.fr:25565';
 
 /**
- * Récupère le nombre de joueurs en ligne sur le serveur Minecraft via l'API mcstatus.io.
- * @returns {Promise<number>} Nombre de joueurs en ligne
+ * Get the number of players currently online on the Minecraft server.
+ * @returns {Promise<number>} Number of players online.
  */
 export async function getMinecraftPlayerCount(): Promise<number> {
     try {
@@ -18,7 +18,7 @@ export async function getMinecraftPlayerCount(): Promise<number> {
 
         const data: MinecraftStatusResponse = await response.json();
 
-        // Vérifie si l'objet `players` et la propriété `online` existent et sont valides
+        // Verify that the response contains the expected data
         if (data && data.players && typeof data.players.online === 'number') {
             return data.players.online;
         } else {

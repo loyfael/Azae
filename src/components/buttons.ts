@@ -1,27 +1,27 @@
 import { ButtonBuilder, ButtonStyle } from 'discord.js';
 
 /**
- * Crée un bouton pour réclamer un ticket.
+ * Create a button to claim a ticket.
  * 
- * @returns {ButtonBuilder} Un objet ButtonBuilder configuré pour le bouton "Réclamer le ticket".
+ * @returns {ButtonBuilder} Object representing the button "Claim ticket".
  */
 export function createClaimButton(): ButtonBuilder {
     return new ButtonBuilder()
-        .setCustomId('claim_ticket') // Définit un identifiant unique pour le bouton, utilisé pour identifier l'interaction.
-        .setLabel('Réclamer le ticket') // Définit le texte affiché sur le bouton.
-        .setStyle(ButtonStyle.Primary) // Définit le style du bouton (Primary correspond généralement à une couleur bleue).
-        .setEmoji('🛠️'); // Ajoute un emoji au bouton pour une meilleure visibilité et compréhension.
+        .setCustomId('claim_ticket') // Define a unique ID for the button, used to identify the interaction.
+        .setLabel('Réclamer le ticket') // Define the text displayed on the button.
+        .setStyle(ButtonStyle.Primary) // Define the style of the button (Primary is usually blue).
+        .setEmoji('🛠️'); // Add emoji
 }
 
 /**
- * Crée un bouton pour fermer un ticket.
+ * Create a button to close a ticket.
  * 
- * @returns {ButtonBuilder} Un objet ButtonBuilder configuré pour le bouton "Fermer le ticket".
+ * @returns {ButtonBuilder} ButtonBuilder Object.
  */
 export function createCloseButton(): ButtonBuilder {
     return new ButtonBuilder()
-        .setCustomId('close_ticket') // Définit un identifiant unique pour le bouton, utilisé pour identifier l'interaction.
-        .setLabel('Fermer le ticket') // Définit le texte affiché sur le bouton.
-        .setStyle(ButtonStyle.Danger) // Définit le style du bouton (Danger correspond généralement à une couleur rouge).
-        .setEmoji('❌'); // Ajoute un emoji au bouton pour indiquer l'action de fermeture.
+        .setCustomId('close_ticket') // Define a unique ID for the button, used to identify the interaction.
+        .setLabel('Fermer le ticket') // Define the text displayed on the button.
+        .setStyle(ButtonStyle.Danger) // Define the style of the button (Danger is usually red).
+        .setEmoji('❌'); // Add emoji
 }

@@ -1,59 +1,59 @@
 import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
 
 /**
- * Crée un menu de sélection (Select Menu) pour choisir une catégorie de ticket.
+ * Create a new StringSelectMenuBuilder with the categories options.
  * 
- * @returns {StringSelectMenuBuilder} Un objet StringSelectMenuBuilder configuré avec les options de catégories.
+ * @returns {StringSelectMenuBuilder} An object representing the select menu.
  */
 export function createSelectMenu() {
-    // Création d'une nouvelle instance de StringSelectMenuBuilder
+    // Create a new StringSelectMenuBuilder
     const selectMenu = new StringSelectMenuBuilder()
-        .setCustomId('category_select') // Définit un identifiant unique pour le menu de sélection, utilisé pour identifier l'interaction.
-        .setPlaceholder('Sélectionnez une catégorie') // Texte affiché par défaut lorsqu'aucune option n'est sélectionnée.
+        .setCustomId('category_select') // Define the custom ID of the select menu.
+        .setPlaceholder('Sélectionnez une catégorie') // Displayed when no option is selected.
         .addOptions(
-            // Ajout de la première option : Partenariats
+            // Partnerships
             new StringSelectMenuOptionBuilder()
-                .setLabel('Partenariats') // Texte visible de l'option.
-                .setValue('partenariats') // Valeur envoyée lorsqu'une option est sélectionnée.
-                .setDescription("Je veux être partenaire.") // Description de l'option pour fournir plus de contexte.
-                .setEmoji('🎙️'), // Emoji associé à l'option pour une meilleure visibilité.
+                .setLabel('Partenariats') // Visible text of the option.
+                .setValue('partenariats') // Send value when the option is selected.
+                .setDescription("Je veux être partenaire.") // Description of the option.
+                .setEmoji('🎙️'), // Associated emoji
 
-            // Ajout de la deuxième option : Questions & Aide
+            // Question and help
             new StringSelectMenuOptionBuilder()
                 .setLabel('Questions & Aide')
                 .setValue('questions_aide')
                 .setDescription("J'ai une question | besoin d'aide.")
                 .setEmoji('❓'),
 
-            // Ajout de la troisième option : Plainte
+            // Plaining 
             new StringSelectMenuOptionBuilder()
                 .setLabel('Plainte')
                 .setValue('plainte')
                 .setDescription("J'ai une plainte à déposer contre un joueur.")
                 .setEmoji('😡'),
 
-            // Ajout de la quatrième option : Remboursements
+            // Refund
             new StringSelectMenuOptionBuilder()
                 .setLabel('Remboursements')
                 .setValue('remboursements')
                 .setDescription("J'ai perdu mon stuff à cause d'un bug.")
                 .setEmoji('💰'),
 
-            // Ajout de la cinquième option : Signalement de bug
+            // Bug report
             new StringSelectMenuOptionBuilder()
                 .setLabel('Signalement de bug')
                 .setValue('signalement_bug')
                 .setDescription("Je veux signaler un bug.")
                 .setEmoji('🐛'),
 
-            // Ajout de la sixième option : Contestation de sanction
+            // Contest sanction
             new StringSelectMenuOptionBuilder()
                 .setLabel('Contestation de sanction')
                 .setValue('contestation_sanction')
                 .setDescription("Je veux contester une sanction")
                 .setEmoji('🗣️'),
 
-            // Ajout de la septième option : Intervention
+            // Intervention
             new StringSelectMenuOptionBuilder()
                 .setLabel('Intervention')
                 .setValue('intervention')

@@ -8,28 +8,28 @@ import {
 } from '../config/config';
 
 /**
- * Génère les permissions pour un canal de ticket en fonction de son nom.
+ * Generate the permissions to apply to a ticket channel based on the ticket name.
  * 
- * @param ticketName - Nom du ticket pour déterminer les rôles autorisés.
- * @param guild - Instance de la guilde Discord.
- * @param creatorId - ID de l'utilisateur qui a créé le ticket.
- * @returns Liste des permissions à appliquer au canal.
+ * @param ticketName - Name of the ticket channel.
+ * @param guild - Guild where the ticket is created.
+ * @param creatorId - ID of the ticket creator.
+ * @returns List of permission overwrites to apply to the ticket channel.
  */
 export function getPermissionsBasedOnTicketName(ticketName: string, guild: Guild, creatorId: Snowflake) {
     const permissionOverwrites: Array<{ id: Snowflake; allow?: bigint[]; deny?: bigint[] }> = [
         {
-            id: guild.id, // ID de @everyone
+            id: guild.id, // ID @everyone
             deny: [PermissionFlagsBits.ViewChannel],
         },
         {
-            id: creatorId, // Permet au créateur du ticket de voir et interagir dans le canal
+            id: creatorId, // Permit the creator to view the channel
             allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory],
         },
     ];
 
     console.log("Validation des rôles...");
 
-    // Match des préfixes pour déterminer les rôles autorisés
+    // Prefix matching for ticket categories
     if (ticketName.startsWith('bug')) {
         if (guild.roles.cache.has(GAME_DEV_ROLE_ID)) {
             permissionOverwrites.push({
@@ -100,7 +100,7 @@ export function getPermissionsBasedOnTicketName(ticketName: string, guild: Guild
         }
     }
 
-    // Ajouter les rôles supérieurs uniquement s'ils existent
+    // Add higher roles
     HIGHER_ROLES_IDS.forEach((roleId) => {
         if (guild.roles.cache.has(roleId)) {
             permissionOverwrites.push({

@@ -1,46 +1,46 @@
 import { TextChannel, Message } from 'discord.js';
 
 /**
- * Récupère tous les messages d'un salon de texte Discord.
+ * Fetches all messages from a Discord text channel.
  * 
- * Cette fonction parcourt un salon de texte et récupère tous les messages présents en paginant
- * les requêtes de messages en lots de 100 jusqu'à ce qu'il n'y ait plus de messages à récupérer.
+ * This function iterates through a text channel and retrieves all messages by paginating
+ * the message requests in batches of 100 until there are no more messages to fetch.
  * 
- * @param {TextChannel} channel - Le salon de texte Discord dont les messages doivent être récupérés.
- * @returns {Promise<Message[]>} Une promesse résolvant un tableau contenant tous les messages du salon.
+ * @param {TextChannel} channel - The Discord text channel from which messages need to be fetched.
+ * @returns {Promise<Message[]>} A promise resolving to an array containing all messages from the channel.
  * 
- * @throws {Error} Lance une erreur si la récupération des messages échoue.
+ * @throws {Error} Throws an error if message retrieval fails.
  */
 export async function fetchChannelMessages(channel: TextChannel): Promise<Message[]> {
-    // Tableau pour stocker tous les messages récupérés
+    // Array to store all fetched messages
     let messages: Message[] = [];
     
-    // ID du dernier message récupéré dans la boucle précédente
+    // ID of the last message fetched in the previous loop
     let lastId: string | undefined;
 
-    // Boucle infinie pour récupérer les messages en paginant jusqu'à ce qu'il n'y ait plus de messages
+    // Infinite loop to fetch messages by paginating until there are no more messages
     while (true) {
         try {
-            // Récupère un lot de 100 messages avant le message avec l'ID `lastId`
+            // Fetch a batch of 100 messages before the message with ID `lastId`
             const fetchedMessages = await channel.messages.fetch({ limit: 100, before: lastId });
 
-            // Si aucun message n'est récupéré, sortir de la boucle
+            // If no messages are fetched, exit the loop
             if (fetchedMessages.size === 0) {
                 break;
             }
 
-            // Ajoute les messages récupérés au tableau `messages`
+            // Add the fetched messages to the `messages` array
             messages = messages.concat(Array.from(fetchedMessages.values()));
 
-            // Met à jour `lastId` avec l'ID du dernier message du lot actuel pour la prochaine itération
+            // Update `lastId` with the ID of the last message in the current batch for the next iteration
             lastId = fetchedMessages.last()?.id;
         } catch (error) {
-            // Log l'erreur et arrête la boucle si une erreur survient lors de la récupération des messages
-            console.error('Erreur lors de la récupération des messages :', error);
+            // Log the error and stop the loop if an error occurs during message retrieval
+            console.error('Error fetching messages:', error);
             break;
         }
     }
 
-    // Retourne tous les messages récupérés
+    // Return all fetched messages
     return messages;
 }
