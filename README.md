@@ -1,6 +1,23 @@
 # Azae, ticket discord bot evolved
 A robust Discord bot built with discord.js and TypeScript, designed to manage support tickets efficiently within your Discord server. This bot allows users to create, manage, and close tickets with ease, ensuring organized and streamlined support interactions.
 
+## License
+This project is licensed under the GNU General Public License v3.0 (GPLv3) with a Non-Commercial Clause.
+```
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Additional condition:
+❌ This software may not be sold or included in any commercial product/service.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+[**FULL LICENSE HERE**](https://github.com/loyfael/Azae/blob/main/LICENSE)
+
 ## Features
 **Ticket Creation:** Users can create support tickets by selecting a category from a dropdown menu.<br>
 **Category-Specific Modals:** Customized input forms based on the selected ticket category.<br>
@@ -91,23 +108,6 @@ rootdirectory/
 ├── tsconfig.json
 └── README.md
 ```
-
-## License
-This project is licensed under the GNU General Public License v3.0 (GPLv3) with a Non-Commercial Clause.
-```
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Additional condition:
-❌ This software may not be sold or included in any commercial product/service.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-```
-[**FULL LICENSE HERE**](https://github.com/loyfael/Azae/blob/main/LICENSE)
 
 ## Contact
 For any questions or support, feel free to reach out:
