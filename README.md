@@ -26,10 +26,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **Transcript Generation:** Automatically generates transcripts of ticket conversations for record-keeping.<br>
 **Command Deployment:** Easy deployment and management of slash commands.<br>
 **Sanitized Channel Names:** Ensures channel names comply with Discord's naming conventions.<br>
+**Minecraft server player number:** Display player numbers on your minecraft server<br>
 <br>
 ## Prerequisites
 Before you begin, ensure you have met the following requirements:
-**Node.js:** Version 20.10 or higher is required. You can download it here.
+**Node.js:** Version 20.10 or higher is required. [You can download it here.](https://nodejs.org/fr/download)
 **Discord Account:** You need a Discord account to create a bot and add it to your server.
 **Discord Server:** Access to a Discord server where you have permissions to add bots and manage roles.
 
