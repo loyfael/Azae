@@ -105,6 +105,8 @@ rootdirectory/
 ├── tsconfig.json
 └── README.md
 ```
+## Bug reported
+- Sometimes the number of players on the minecraft server doesn't work properly. I'll do a fix of this problem when I have time.
 
 ## Contact
 For any questions or support, feel free to reach out:
