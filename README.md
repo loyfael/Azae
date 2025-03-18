@@ -110,6 +110,10 @@ rootdirectory/
 ## Bug reported
 - Sometimes the number of players on the minecraft server doesn't work properly. I'll do a fix of this problem when I have time.
 
+## FAQ
+- Why doesn't the project have a configuration system?
+*I don't plan to add a configuration system more advanced than the current one, because in fact I created this bot just for me, and I'm too lazy to create a configuration more advanced than config.ts and .env. This project is reserved for people who know how to tinker with code, it's not for people who have no computer knowledge. Don't modify my code unless you know exactly what you're doing.*
+
 ## Contact
 For any questions or support, feel free to reach out:
 - Email: aelphil@proton.me
