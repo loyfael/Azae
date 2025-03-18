@@ -3,19 +3,15 @@ A robust Discord bot built with discord.js and TypeScript, designed to manage su
 
 ## License
 This project is licensed under the GNU General Public License v3.0 (GPLv3) with a Non-Commercial Clause.
-```
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+In
 
-Additional condition:
-❌ This software may not be sold or included in any commercial product/service.
+### Simplified:
+- You are not allowed to sell my code.
+- In general, you may not use my code in any commercial activity.
+- You must mention that I wrote the code in any redistribution of my code.
+- You may not say that you are the author of my code.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-```
+My code can be used and forked by anyone, but please respect my creation.
 [**FULL LICENSE HERE**](https://github.com/loyfael/Azae/blob/main/LICENSE)
 
 ## Features
