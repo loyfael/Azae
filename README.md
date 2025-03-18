@@ -8,7 +8,7 @@ In
 ### Simplified:
 - You are not allowed to sell my code.
 - In general, you may not use my code in any commercial activity.
-- You must mention that I wrote the code in any redistribution of my code.
+- You must mention that I wrote the code in any redistribution.
 - You may not say that you are the author of my code.
 
 My code can be used and forked by anyone, but please respect my creation.
