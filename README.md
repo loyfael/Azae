@@ -2,17 +2,19 @@
 A robust Discord bot built with discord.js and TypeScript, designed to manage support tickets efficiently within your Discord server. This bot allows users to create, manage, and close tickets with ease, ensuring organized and streamlined support interactions.
 
 ## License
-This project is licensed under the GNU General Public License v3.0 (GPLv3) with a Non-Commercial Clause.
-In
-
-### Simplified:
-- You are not allowed to sell my code.
-- In general, you may not use my code in any commercial activity.
-- You must mention that I wrote the code in any redistribution.
-- You may not say that you are the author of my code.
+> [!WARNING]  
+> This project is licensed under the GNU General Public License v3.0 (GPLv3) with a Non-Commercial Clause.
+>
+> - You are not allowed to sell my code.
+> - In general, you may not use my code in any commercial activity.
+> - You must mention that I wrote the code in any redistribution.
+> - You may not say that you are the author of my code.
 
 My code can be used and forked by anyone, but please respect my creation.
 [**FULL LICENSE HERE**](https://github.com/loyfael/Azae/blob/main/LICENSE)
+
+## Contribute
+You can open an issue or a pull request if you wish. I welcome any constructive suggestions regarding my code.
 
 ## Features
 **Ticket Creation:** Users can create support tickets by selecting a category from a dropdown menu.<br>
