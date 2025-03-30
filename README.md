@@ -1,6 +1,9 @@
 # Azae, ticket discord bot evolved
 A robust Discord bot built with discord.js and TypeScript, designed to manage support tickets efficiently within your Discord server. This bot allows users to create, manage, and close tickets with ease, ensuring organized and streamlined support interactions.
 
+> [!NOTE]
+> Looking back, I'm truly proud that the bot I developed played a role in the adventures of several Minecraft servers from 2024 to 2025.
+
 ## License
 > [!WARNING]  
 > This project is licensed under the GNU General Public License v3.0 (GPLv3) with a Non-Commercial Clause.
