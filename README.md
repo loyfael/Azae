@@ -111,8 +111,8 @@ rootdirectory/
 └── README.md
 ```
 ## Bug reported
-- Sometimes the number of players on the minecraft server doesn't work properly. I'll do a fix of this problem when I have time.
 - /ticket add command don't works correctly. I'll do a fix of this problem when I have time.
+- ~~Sometimes the number of players on the minecraft server doesn't work properly. I'll do a fix of this problem when I have time.~~ Fixed.
 
 ## FAQ
 - Why doesn't the project have a configuration system?<br>
