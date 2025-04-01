@@ -20,102 +20,52 @@ export function getModalFieldsForCategory(category: string, interaction: ModalSu
 
     // Use a switch structure to handle the fields specific to each category
     switch (category) {
-        case 'signalement_bug':
+        case 'support':
             // Category: Bug report
 
             // Retrieve the value of the "Serveur/Monde" field or set a default value
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
+            fields['askType'] = interaction.fields.getTextInputValue('askType') || 'Non spécifié';
 
             // Retrieve the value of the "Description du bug" field
-            fields['Description du bug'] = interaction.fields.getTextInputValue('Description du bug');
+            fields['Instance'] = interaction.fields.getTextInputValue('Instance');
 
             // Retrieve the value of the "Comment reproduire le bug" field or set a default value
-            fields['Comment reproduire le bug'] = interaction.fields.getTextInputValue('Comment reproduire le bug') || 'Non spécifié';
+            fields['Description'] = interaction.fields.getTextInputValue('Description') || 'Non spécifié';
 
             // Retrieve the value of the "Erreur dans le tchat" field or set a default value
-            fields['Erreur dans le tchat'] = interaction.fields.getTextInputValue('Erreur dans le tchat') || 'Non spécifié';
+            fields['Complément d\'informations'] = interaction.fields.getTextInputValue('Complément d\'informations') || 'Non spécifié';
             break;
 
-        case 'plainte':
+        case 'moderation':
             // Category: Complaint
 
             // Retrieve the value of the "Serveur/Monde" field or set a default value
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
+            fields['Type de demande'] = interaction.fields.getTextInputValue('Type de demande') || 'Non spécifié';
 
             // Retrieve the value of the "Position" field or set a default value
-            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
+            fields['Instance'] = interaction.fields.getTextInputValue('Instance') || 'Non spécifié';
 
             // Retrieve the value of the "Pseudo du/des fautif(s)" field
-            fields['Pseudo du/des fautif(s)'] = interaction.fields.getTextInputValue('Pseudo du/des fautif(s)');
+            fields['Description du problème'] = interaction.fields.getTextInputValue('Description du problème');
 
             // Retrieve the value of the "Description du problème" field
-            fields['Description du problème'] = interaction.fields.getTextInputValue('Description du problème');
-            break;
-
-        case 'questions_aide':
-            // Category: Questions & Help
-
-            // Retrieve the value of the "Serveur/Monde" field or set a default value
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
-
-            // Retrieve the value of the "Position" field or set a default value
-            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
-
-            // Retrieve the value of the "Votre demande" field
-            fields['Votre demande'] = interaction.fields.getTextInputValue('Votre demande');
-            break;
-
-        case 'remboursements':
-            // Category: Refunds
-
-            // Retrieve the value of the "Serveur/Monde" field or set a default value
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
-            
-            // Retrieve the value of the "Position" field or set a default value
-            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
-
-            // Retrieve the value of the "Comment avez-vous perdu vos équipements ?" field
-            fields['Comment avez-vous perdu vos équipements ?'] = interaction.fields.getTextInputValue('Comment avez-vous perdu vos équipements');
-
-            // Retrieve the value of the "Comportement anormal du serveur ?" field or set a default value
-            fields['Comportement anormal du serveur ?'] = interaction.fields.getTextInputValue('Comportement anormal du serveur') || 'Non spécifié';
-            break;
-
-        case 'contestation_sanction':
-            // Category: Contest sanction
-
-            // Retrieve the value of the "Pourquoi avez-vous été sanctionné ?" field
-            fields['Pourquoi avez-vous été sanctionné ?'] = interaction.fields.getTextInputValue('Raison de la sanction');
-
-            // Retrieve the value of the "Pourquoi retirer votre sanction ?" field or set a default value
-            fields['Pourquoi retirer votre sanction ?'] = interaction.fields.getTextInputValue('Raison du retrait de la sanction') || 'Non spécifié';
-            break;
-
-        case 'intervention':
-            // Category: Intervention
-
-            // Retrieve the value of the "Serveur/Monde" field or set a default value
-            fields['Serveur/Monde'] = interaction.fields.getTextInputValue('Serveur/Monde') || 'Non spécifié';
-
-            // Retrieve the value of the "Position" field or set a default value
-            fields['Position'] = interaction.fields.getTextInputValue('Position') || 'Non spécifié';
-
-            // Retrieve the value of the "Pourquoi une intervention Haut Staff ?" field
-            fields['Pourquoi une intervention Haut Staff ?'] = interaction.fields.getTextInputValue('Raison de l\'intervention');
+            fields['Informations complémentaires'] = interaction.fields.getTextInputValue('Informations complémentaires') || 'Non spécifié';
             break;
 
         case 'partenariats':
-            // Category: Partnerships
+            // Category: Questions & Help
 
-            // Retrieve the value of the "Présentation du projet" field
-            fields['Présentation du projet'] = interaction.fields.getTextInputValue('Présentation du projet');
-            break;
+            // Retrieve the value of the "Serveur/Monde" field or set a default value
+            fields['Nom du projet'] = interaction.fields.getTextInputValue('Nom du projet') || 'Non spécifié';
 
-        default:
-            // Default category if no match is found
+            // Retrieve the value of the "Position" field or set a default value
+            fields['Type'] = interaction.fields.getTextInputValue('Type') || 'Non spécifié';
 
-            // Retrieve the value of the "Raison du ticket" field
-            fields['Raison du ticket'] = interaction.fields.getTextInputValue('Raison du ticket');
+            // Retrieve the value of the "Position" field or set a default value
+            fields['Votre proposition'] = interaction.fields.getTextInputValue('Votre proposition') || 'Non spécifié';
+
+            // Retrieve the value of the "Votre demande" field
+            fields['Recontacter'] = interaction.fields.getTextInputValue('Recontacter');
             break;
     }
 

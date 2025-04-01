@@ -18,293 +18,152 @@ export function createModalForCategory(category: string): ModalBuilder {
     // Create the common input field: In-game username (required)
     const usernameInput = new TextInputBuilder()
         .setCustomId('Pseudo en jeu') // Unique identifier for the input field.
-        .setLabel('Votre pseudo en jeu') // Label displayed above the field.
+        .setLabel('Quel est votre pseudo en jeu?') // Label displayed above the field.
         .setStyle(TextInputStyle.Short) // Type of input field (short text).
         .setRequired(true) // Indicates that this field is required.
-        .setPlaceholder("Entrez votre pseudo en jeu."); // Placeholder text in the field.
+        .setPlaceholder("Ex: JeanMichelDu22"); // Placeholder text in the field.
 
     // Add the in-game username input field to a new component row
     components.push(new ActionRowBuilder<TextInputBuilder>().addComponents(usernameInput));
 
     // Select additional fields based on the specified category
     switch (category) {
-        case 'signalement_bug':
-            // Create and configure fields specific to the "signalement_bug" category
-
+        case 'support':
             // Field: Server/World (optional)
-            const serverWorldInput_bug = new TextInputBuilder()
-                .setCustomId('Serveur/Monde')
-                .setLabel('Sur quel serveur/monde ?')
+            const askType = new TextInputBuilder()
+                .setCustomId('askType')
+                .setLabel('Quel est le type de votre demande ?')
                 .setStyle(TextInputStyle.Short)
-                .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setRequired(true)
+                .setPlaceholder("Ex: Question, Aide, Bug, Demande etc.")
                 .setMaxLength(15);
 
             // Field: Bug description (required)
-            const bugDescriptionInput = new TextInputBuilder()
-                .setCustomId('Description du problème')
-                .setLabel('Description du problème')
+            const instanceName = new TextInputBuilder()
+                .setCustomId('Instance')
+                .setLabel('Dans quelle instance êtes-vous ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Décrivez le problème. N'oubliez pas la politesse !")
+                .setPlaceholder("Ex: Spawn, Minage, Habitable etc.")
                 .setMaxLength(800);
 
             // Field: How to reproduce the bug? (optional)
-            const reproduceBugInput = new TextInputBuilder()
-                .setCustomId('Comment reproduire le bug')
-                .setLabel('Comment reproduire le bug ?')
+            const askContent = new TextInputBuilder()
+                .setCustomId('Description')
+                .setLabel('Description de votre demande')
                 .setStyle(TextInputStyle.Paragraph)
-                .setRequired(false)
-                .setPlaceholder("Expliquez-nous comment reproduire ce bug.")
+                .setRequired(true)
+                .setPlaceholder("ex: Bonjour, voici ma demande..")
                 .setMaxLength(800);
 
             // Field: Chat error (optional)
-            const chatErrorInput = new TextInputBuilder()
-                .setCustomId('Erreur dans le tchat')
-                .setLabel('Erreur dans le tchat')
+            const supportComplementInput = new TextInputBuilder()
+                .setCustomId('Complément d\'informations')
+                .setLabel('Complément d\'informations')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
-                .setPlaceholder("Écrivez l'erreur s'il y en a une.")
+                .setPlaceholder("ex: Position F3, erreur tchat, etc.")
                 .setMaxLength(200);
 
             // Add fields specific to the "signalement_bug" category to component rows
             components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_bug),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(bugDescriptionInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(reproduceBugInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(chatErrorInput),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(askType),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(instanceName),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(askContent),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(supportComplementInput),
             );
             break;
 
-        case 'plainte':
+        case 'moderation':
             // Create and configure fields specific to the "plainte" category
 
             // Field: Server/World (optional)
-            const serverWorldInput_plainte = new TextInputBuilder()
-                .setCustomId('Serveur/Monde')
-                .setLabel('Sur quel serveur/monde ?')
+            const plainType = new TextInputBuilder()
+                .setCustomId('Type de demande')
+                .setLabel('Quel est le type de votre demande ?')
                 .setStyle(TextInputStyle.Short)
-                .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setRequired(true)
+                .setPlaceholder("Ex: Signalement, remboursement etc.")
                 .setMaxLength(15);
-
-            const plaintWorldPosInput = new TextInputBuilder()
-                .setCustomId('Position')
-                .setLabel(`Avez vous une position?`)
+            
+            const modInstanceType = new TextInputBuilder()
+                .setCustomId('Instance')
+                .setLabel('Dans quelle instance êtes-vous ?')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
-                .setMaxLength(50);
-
-            // Field: Offender's username(s) (required)
-            const offenderInput = new TextInputBuilder()
-                .setCustomId('Pseudo du/des fautif(s)')
-                .setLabel('Pseudo du/des fautif(s)')
-                .setStyle(TextInputStyle.Short)
-                .setRequired(true)
-                .setPlaceholder("Entrez le(s) pseudo(s) du/des fautif(s).")
-                .setMaxLength(20);
+                .setPlaceholder("Ex: Spawn, Minage, Habitable etc.")
+                .setMaxLength(800);
 
             // Field: Problem description (required)
-            const problemDescriptionInput = new TextInputBuilder()
+            const modProblemDescription = new TextInputBuilder()
                 .setCustomId('Description du problème')
                 .setLabel('Description du problème')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Décrivez le problème. N'oubliez pas la politesse !")
+                .setPlaceholder("Ex: Bonjour, voici ma demande..")
+                .setMaxLength(800);
+
+            const modComplementInput = new TextInputBuilder()
+                .setCustomId('Informations complémentaires')
+                .setLabel('Informations complémentaires')
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true)
+                .setPlaceholder("Ex: Position F3, erreur tchat, etc.")
                 .setMaxLength(800);
 
             // Add fields specific to the "plainte" category to component rows
             components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_plainte),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(plaintWorldPosInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(offenderInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(problemDescriptionInput),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(plainType),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(modInstanceType),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(modComplementInput),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(modProblemDescription),
             );
             break;
 
-        case 'questions_aide':
+        case 'partenariats':
             // Create and configure fields specific to the "questions_aide" category
 
             // Field: Server/World (optional)
-            const serverWorldInput_aide = new TextInputBuilder()
-                .setCustomId('Serveur/Monde')
-                .setLabel('Sur quel serveur/monde ?')
+            const partName = new TextInputBuilder()
+                .setCustomId('Nom du projet')
+                .setLabel('Quel est le nom de votre projet ?')
                 .setStyle(TextInputStyle.Short)
-                .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
+                .setRequired(true)
+                .setPlaceholder("Ex: Nom artiste, projet, société etc.")
                 .setMaxLength(20);
 
-            const questionWorldPosInput = new TextInputBuilder()
-                .setCustomId('Position')
-                .setLabel(`Avez vous une position?`)
+            const partCondition = new TextInputBuilder()
+                .setCustomId('Type')
+                .setLabel(`Type de partenariat`)
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
+                .setPlaceholder("Ex: Échange de visibilité, graphismes, etc.")
                 .setMaxLength(50);
 
             // Field: What do you need? (required)
-            const needInput = new TextInputBuilder()
-                .setCustomId('Votre demande')
-                .setLabel('De quoi avez-vous besoin ?')
+            const partProposal = new TextInputBuilder()
+                .setCustomId('Votre proposition')
+                .setLabel('Décrivez nous votre proposition')
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
-                .setPlaceholder("Posez votre question. N'oubliez pas la politesse !")
+                .setPlaceholder("ex: Bonjour, voici ma proposition..")
+                .setMaxLength(800);
+            
+            const partContact = new TextInputBuilder()
+                .setCustomId('Recontacter')
+                .setLabel('Comment vous contacter ?')
+                .setStyle(TextInputStyle.Paragraph)
+                .setRequired(true)
+                .setPlaceholder("ex: Discord, mail, instagram..")
                 .setMaxLength(800);
 
             // Add fields specific to the "questions_aide" category to component rows
             components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_aide),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(questionWorldPosInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(needInput),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(partName),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(partCondition),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(partProposal),
+                new ActionRowBuilder<TextInputBuilder>().addComponents(partContact),
             );
-            break;
-
-        case 'remboursements':
-            // Create and configure fields specific to the "remboursements" category
-
-            // Field: Server/World (optional)
-            const serverWorldInput_remboursement = new TextInputBuilder()
-                .setCustomId('Serveur/Monde')
-                .setLabel('Sur quel serveur/monde ?')
-                .setStyle(TextInputStyle.Short)
-                .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
-                .setMaxLength(20);
-
-            const refundWorldPosInput = new TextInputBuilder()
-                .setCustomId('Position')
-                .setLabel(`Avez vous une position?`)
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
-                .setMaxLength(50);
-
-            // Field: How did you lose your equipment? (required)
-            const lossExplanationInput = new TextInputBuilder()
-                .setCustomId('Description du problème')
-                .setLabel('Description du problème')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Décrivez le problème. N'oubliez pas la politesse !")
-                .setMaxLength(800);
-
-            // Field: Did you notice any abnormal server behavior? (optional)
-            const serverIssueInput = new TextInputBuilder()
-                .setCustomId('Comportement anormal du serveur')
-                .setLabel('Comportement anormal du serveur ?')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(false)
-                .setPlaceholder("Avez-vous vu un comportement anormal du serveur ?")
-                .setMaxLength(800);
-
-            // Add fields specific to the "remboursements" category to component rows
-            components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_remboursement),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(refundWorldPosInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(lossExplanationInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(serverIssueInput),
-            );
-            break;
-
-        case 'contestation_sanction':
-            // Create and configure fields specific to the "contestation_sanction" category
-
-            // Field: Why were you sanctioned? (required)
-            const sanctionReasonInput = new TextInputBuilder()
-                .setCustomId('Raison de la sanction')
-                .setLabel('Pourquoi avez-vous été sanctionné ?')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Expliquez la raison de votre sanction.")
-                .setMaxLength(800);
-
-            // Field: Why should we remove your sanction? (optional)
-            const appealReasonInput = new TextInputBuilder()
-                .setCustomId('Raison du retrait de la sanction')
-                .setLabel('Pour quelle raison retirer votre sanction ?')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(false)
-                .setPlaceholder("Pour quelle raison devrions-nous retirer votre sanction ?")
-                .setMaxLength(800);
-
-            // Add fields specific to the "contestation_sanction" category to component rows
-            components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(sanctionReasonInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(appealReasonInput),
-            );
-            break;
-
-        case 'intervention':
-            // Create and configure fields specific to the "intervention" category
-
-            // Field: Server/World (optional)
-            const serverWorldInput_intervention = new TextInputBuilder()
-                .setCustomId('Serveur/Monde')
-                .setLabel('Sur quel serveur/monde ?')
-                .setStyle(TextInputStyle.Short)
-                .setRequired(false)
-                .setPlaceholder("Sur lequel de nos serveur et/ou monde ?")
-                .setMaxLength(15);
-
-            const interventionWorldPosInput = new TextInputBuilder()
-                .setCustomId('Position')
-                .setLabel(`Avez vous une position?`)
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Indiquez la (Ctrl+F3) position X Y Z")
-                .setMaxLength(50);
-
-            // Field: Why do you need a High Staff intervention? (required)
-            const interventionReasonInput = new TextInputBuilder()
-                .setCustomId('Description du problème')
-                .setLabel('Description du problème')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Décrivez le problème. N'oubliez pas la politesse !")
-                .setMaxLength(800);
-
-            // Add fields specific to the "intervention" category to component rows
-            components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(serverWorldInput_intervention),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(interventionWorldPosInput),
-                new ActionRowBuilder<TextInputBuilder>().addComponents(interventionReasonInput),
-            );
-            
-            break;
-
-        case 'partenariats':
-            // Create and configure fields specific to the "partenariats" category
-
-            // Field: Present your project (required)
-            const projectPresentationInput = new TextInputBuilder()
-                .setCustomId('Présentation du projet')
-                .setLabel('Présentez-nous votre projet')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true)
-                .setPlaceholder("Décrivez votre projet en détail.")
-                .setMaxLength(800);
-
-            // Add the field specific to the "partenariats" category to a component row
-            components.push(
-                new ActionRowBuilder<TextInputBuilder>().addComponents(projectPresentationInput),
-            );
-            break;
-
-        default:
-            // Unknown category, use a default form
-
-            // Field: Ticket reason (required)
-            const defaultReasonInput = new TextInputBuilder()
-                .setCustomId('Raison du ticket')
-                .setLabel('Raison du ticket')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(false)
-                .setPlaceholder("Entrez la raison de votre demande. N'oubliez pas la politesse !")
-                .setMaxLength(800);
-
-            // Add the default field to a component row
-            components.push(new ActionRowBuilder<TextInputBuilder>().addComponents(defaultReasonInput));
             break;
     }
 

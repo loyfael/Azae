@@ -13,54 +13,27 @@ export function createSelectMenu() {
         .addOptions(
             // Partnerships
             new StringSelectMenuOptionBuilder()
-                .setLabel('Partenariats') // Visible text of the option.
+                .setLabel('PARTENARIATS') // Visible text of the option.
                 .setValue('partenariats') // Send value when the option is selected.
-                .setDescription("Je veux être partenaire.") // Description of the option.
-                .setEmoji('🎙️'), // Associated emoji
+                .setDescription("Devenir forgeur/euse d'art.") // Description of the option.
+                .setEmoji('🤝'), // Associated emoji
 
             // Question and help
             new StringSelectMenuOptionBuilder()
-                .setLabel('Questions & Aide')
-                .setValue('questions_aide')
-                .setDescription("J'ai une question | besoin d'aide.")
-                .setEmoji('❓'),
+                .setLabel('SUPPORT')
+                .setValue('support')
+                .setDescription("Pour les questions, bugs, demandes, remboursements etc.")
+                .setEmoji('🛠️'),
 
             // Plaining 
             new StringSelectMenuOptionBuilder()
-                .setLabel('Plainte')
-                .setValue('plainte')
-                .setDescription("J'ai une plainte à déposer contre un joueur.")
-                .setEmoji('😡'),
-
-            // Refund
-            new StringSelectMenuOptionBuilder()
-                .setLabel('Remboursements')
-                .setValue('remboursements')
-                .setDescription("J'ai perdu mon stuff à cause d'un bug.")
-                .setEmoji('💰'),
-
-            // Bug report
-            new StringSelectMenuOptionBuilder()
-                .setLabel('Signalement de bug')
-                .setValue('signalement_bug')
-                .setDescription("Je veux signaler un bug.")
-                .setEmoji('🐛'),
-
-            // Contest sanction
-            new StringSelectMenuOptionBuilder()
-                .setLabel('Contestation de sanction')
-                .setValue('contestation_sanction')
-                .setDescription("Je veux contester une sanction")
-                .setEmoji('🗣️'),
-
-            // Intervention
-            new StringSelectMenuOptionBuilder()
-                .setLabel('Intervention')
-                .setValue('intervention')
-                .setDescription("J'ai besoin d'un unclaim, afficher au spawn..")
-                .setEmoji('⚡')
+                .setLabel('MODÉRATION')
+                .setValue('moderation')
+                .setDescription("Pour signaler un joueur / contester / réclamer etc.")
+                .setEmoji('🚨'),
         );
 
     // Retourne le menu de sélection entièrement configuré
     return selectMenu;
 }
+
