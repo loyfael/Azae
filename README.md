@@ -4,6 +4,8 @@ A robust Discord bot built with discord.js and TypeScript, designed to manage su
 > ## **Azae is no longer maintained.**  
 > I originally built it specifically for handling ticket systems on Discord, nothing more.  
 > As a result, the bot is very hard to modularize, and frankly, I have no intention of updating it further.
+>
+> Good news ! You can use my other bot [Calydia (click here)](https://github.com/loyfael/Calydia)
 
 > [!NOTE]
 > Looking back, I'm truly proud that the bot I developed played a role in the adventures of several Minecraft servers from 2024 to 2025.
