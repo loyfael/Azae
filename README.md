@@ -1,7 +1,9 @@
 # Azae, ticket discord bot evolved - DEPRECATED
-> [!WARNING]  
-> This project is now deprecated. Please prefer to use my other bot [Calydia (click here)](https://github.com/loyfael/Calydia). Azae will no longer receive new update.
 A robust Discord bot built with discord.js and TypeScript, designed to manage support tickets efficiently within your Discord server. This bot allows users to create, manage, and close tickets with ease, ensuring organized and streamlined support interactions.
+> [!WARNING]  
+> ## **Azae is no longer maintained.**  
+> I originally built it specifically for handling ticket systems on Discord, nothing more.  
+> As a result, the bot is very hard to modularize, and frankly, I have no intention of updating it further.
 
 > [!NOTE]
 > Looking back, I'm truly proud that the bot I developed played a role in the adventures of several Minecraft servers from 2024 to 2025.
